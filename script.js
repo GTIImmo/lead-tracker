@@ -1,61 +1,36 @@
 document.addEventListener("DOMContentLoaded", function() {
     const params = new URLSearchParams(window.location.search);
 
-    function setInputValue(id, value) {
-        let field = document.getElementById(id);
-        if (field) {
-            field.value = value ? value : ""; // Gérer les valeurs nulles
-        }
+    function setInputValue(id, value, editable = false) {
+        let input = document.getElementById(id);
+        input.value = value || "";
+        input.readOnly = !editable; // Désactive les champs non modifiables
+        input.style.backgroundColor = editable ? "#FFF" : "#DDD"; // Style visuel
     }
 
-    function formatNumber(value) {
-        return value ? parseFloat(value.replace(/[^\d,.-]/g, "")).toLocaleString("fr-FR") : "";
-    }
+    // 📝 Liste des champs modifiables
+    const editableFields = ["nom", "prenom", "email", "telephone", "statutRDV", "rdv"];
 
-    function formatDate(value) {
-        if (!value || value.toLowerCase() === "non renseigné") return "";
-        let date = new Date(value);
-        return isNaN(date.getTime()) ? value : date.toLocaleDateString("fr-FR");
-    }
-
-    function extractStreetViewLink(value) {
-        return value.includes("Voir sur Google Street View") ? value : "#";
-    }
-
-    // Récupération et affichage des données du lead
-    setInputValue("nom", params.get("nom"));
-    setInputValue("prenom", params.get("prenom"));
-    setInputValue("email", params.get("email"));
-    setInputValue("telephone", params.get("telephone"));
+    // 🔒 Remplissage et verrouillage des champs
+    setInputValue("nom", params.get("nom"), true);
+    setInputValue("prenom", params.get("prenom"), true);
+    setInputValue("email", params.get("email"), true);
+    setInputValue("telephone", params.get("telephone"), true);
+    setInputValue("statutRDV", params.get("statutRDV"), true);
+    setInputValue("rdv", params.get("rdv"), true);
+    
+    // 🚫 Champs non modifiables
     setInputValue("adresse", params.get("adresse"));
     setInputValue("codePostal", params.get("codePostal"));
     setInputValue("ville", params.get("ville"));
     setInputValue("typeBien", params.get("typeBien"));
-    
-    setInputValue("surface", formatNumber(params.get("surface")));
-    setInputValue("nbPieces", formatNumber(params.get("nbPieces")));
-    setInputValue("prix", formatNumber(params.get("prix")));
-    setInputValue("dateReception", formatDate(params.get("dateReception")));
-    document.getElementById("googleMaps").href = extractStreetViewLink(params.get("googleMaps"));
+    setInputValue("surface", params.get("surface"));
+    setInputValue("prix", params.get("prix"));
+    setInputValue("dateReception", params.get("dateReception"));
+    document.getElementById("googleMaps").href = params.get("googleMaps");
 
-    // Informations Agence
-    setInputValue("agence", params.get("agence"));
-    setInputValue("agenceAdresse", params.get("agenceAdresse"));
-    setInputValue("agenceTelephone", params.get("agenceTelephone"));
-    setInputValue("negociateur", params.get("negociateur"));
-    setInputValue("telephoneCommercial", params.get("telephoneCommercial"));
-    setInputValue("mailCommercial", params.get("mailCommercial"));
-
-    // Ajout des nouvelles colonnes demandées
-    setInputValue("brevo", params.get("brevo"));
-    setInputValue("statutRDV", params.get("statutRDV"));
-    setInputValue("rdv", formatDate(params.get("rdv")));
-
-    // Fonction pour mettre à jour Google Sheets via Google Apps Script
     function updateGoogleSheet(action, data = {}) {
-        if (!confirm("Êtes-vous sûr de vouloir effectuer cette action ?")) {
-            return;
-        }
+        if (!confirm("Êtes-vous sûr de vouloir enregistrer ces modifications ?")) return;
 
         let queryParams = new URLSearchParams({ action, row: params.get("row") });
 
@@ -63,23 +38,21 @@ document.addEventListener("DOMContentLoaded", function() {
             queryParams.append(key, data[key]);
         });
 
-        fetch(`https://script.google.com/macros/s/AKfycbzc7q5-9UOVnnwsXc0SGlVGKrrg0MxdoRJaqJJvAzqfbDcHDrgjYeiJ_KlOfHBmBCoe2w/exec/exec?` + queryParams.toString())
+        fetch(`https://script.google.com/macros/s/AKfycbzc7q5-9UOVnnwsXc0SGlVGKrrg0MxdoRJaqJJvAzqfbDcHDrgjYeiJ_KlOfHBmBCoe2w/exec?` + queryParams.toString())
             .then(response => response.text())
             .then(result => alert("✅ Modifications enregistrées avec succès !"))
             .catch(error => alert("❌ Erreur lors de l'enregistrement !"));
     }
 
-    // Gestion des interactions avec les boutons
     document.getElementById("priseChargeBtn").addEventListener("click", () => updateGoogleSheet("confirm"));
 
     document.getElementById("modifierBtn").addEventListener("click", () => {
         let newData = {};
-        document.querySelectorAll("input").forEach(input => {
-            newData[input.id] = input.value;
+        editableFields.forEach(id => {
+            let input = document.getElementById(id);
+            newData[id] = input.value;
         });
 
         updateGoogleSheet("update", newData);
     });
-
-    document.getElementById("rendezVousBtn").addEventListener("click", () => updateGoogleSheet("rendezvous"));
 });
