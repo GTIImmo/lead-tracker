@@ -1,64 +1,46 @@
-body {
-    font-family: Arial, sans-serif;
-    background-color: #2D2D2D; /* Fond anthracite */
-    color: #FFF;
-    text-align: center;
-    padding: 20px;
-}
+function doGet(e) {
+    var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Leads Cityscan");
+    var rowIndex = parseInt(e.parameter.row, 10);
+    var action = e.parameter.action;
+    var header = sheet.getDataRange().getValues()[0];
 
-.container {
-    max-width: 600px;
-    margin: auto;
-    background: #3A3A3A;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0px 4px 8px rgba(255, 255, 255, 0.1);
-}
+    if (!e || !e.parameter || !e.parameter.row) {
+        Logger.log("❌ Erreur : Aucun paramètre reçu !");
+        return ContentService.createTextOutput("❌ Erreur : Aucun paramètre reçu.").setMimeType(ContentService.MimeType.TEXT);
+    }
 
-header {
-    background-color: #1C1C1C;
-    padding: 10px;
-}
+    if (isNaN(rowIndex) || rowIndex < 2) {
+        Logger.log("❌ Erreur : Ligne invalide :", rowIndex);
+        return ContentService.createTextOutput("❌ Erreur : Ligne invalide").setMimeType(ContentService.MimeType.TEXT);
+    }
 
-.logo {
-    max-width: 180px;
-}
+    Logger.log("🔍 Paramètres reçus :", e.parameter);
 
-h1, h2 {
-    color: #F77F00;
-}
+    if (action === "update") {
+        var editableFields = ["Nom", "Prénom", "Email", "Téléphone", "Statut RDV", "RDV"];
+        var updates = [];
+        
+        for (var key in e.parameter) {
+            if (key !== "action" && key !== "row") {
+                var colIndex = header.indexOf(key);
+                
+                if (colIndex > -1 && editableFields.includes(key)) {
+                    Logger.log(`✅ Mise à jour : Colonne '${key}' trouvée en position ${colIndex + 1}, nouvelle valeur : '${e.parameter[key]}'`);
+                    sheet.getRange(rowIndex, colIndex + 1).setValue(e.parameter[key]);
+                    updates.push(key);
+                } else {
+                    Logger.log(`⚠️ Clé '${key}' non trouvée dans le fichier Google Sheets.`);
+                }
+            }
+        }
 
-label {
-    display: block;
-    margin: 10px 0 5px;
-    font-weight: bold;
-}
+        if (updates.length === 0) {
+            Logger.log("❌ Aucun champ mis à jour !");
+            return ContentService.createTextOutput("❌ Erreur : Aucune mise à jour effectuée.").setMimeType(ContentService.MimeType.TEXT);
+        }
 
-input {
-    width: 100%;
-    padding: 8px;
-    border-radius: 5px;
-    border: none;
-    font-size: 16px;
-}
+        return ContentService.createTextOutput("✅ Mise à jour effectuée : " + updates.join(", ")).setMimeType(ContentService.MimeType.TEXT);
+    }
 
-.action-buttons {
-    margin-top: 20px;
+    return ContentService.createTextOutput("❌ Action inconnue").setMimeType(ContentService.MimeType.TEXT);
 }
-
-.btn {
-    display: block;
-    width: 100%;
-    margin: 10px 0;
-    padding: 12px;
-    border-radius: 5px;
-    text-decoration: none;
-    font-size: 16px;
-    color: white;
-    cursor: pointer;
-    border: none;
-}
-
-.btn-primary { background-color: #F77F00; }
-.btn-secondary { background-color: #27AE60; }
-.btn-info { background-color: #007BFF; }
