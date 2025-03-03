@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", function() {
     function updateGoogleSheet(action) {
         if (!confirm("Êtes-vous sûr de vouloir effectuer cette action ?")) return;
 
-        fetch(`https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec?action=${action}&row=${new URLSearchParams(window.location.search).get("row")}`)
+        fetch(`https://script.google.com/macros/s/AKfycbwzQZu7sPa8q3NSKYT46Kg_9phPivfqT1l3riHQ0YmBOorroTtdMuDwgZX3dxGTvxHQLg/exec?action=${action}&row=${new URLSearchParams(window.location.search).get("row")}`)
             .then(() => alert("✅ Action enregistrée avec succès !"))
             .catch(() => alert("❌ Erreur"));
     }
