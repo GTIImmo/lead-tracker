@@ -42,7 +42,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
         console.log("🔍 Envoi des données à Google Apps Script :", queryParams.toString());
 
-        fetch(`https://script.google.com/macros/s/AKfycbzc7q5-9UOVnnwsXc0SGlVGKrrg0MxdoRJaqJJvAzqfbDcHDrgjYeiJ_KlOfHBmBCoe2w/exec/exec?` + queryParams.toString())
+        fetch(`https://script.google.com/macros/s/AKfycby6aqw4oDxwUwHoc6JyDmKk6UoNwtQvLMKJu-wmWSzp7wI6emnL-yJycPWBH6AvJv5O-Q/exec?` + queryParams.toString())
             .then(response => response.text())
             .then(result => {
                 console.log("✅ Réponse du serveur :", result);
