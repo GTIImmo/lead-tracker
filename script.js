@@ -9,13 +9,17 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     function formatNumber(value) {
-        return value ? parseFloat(value).toLocaleString("fr-FR") : "";
+        return value ? parseFloat(value.replace(/[^\d,.-]/g, "")).toLocaleString("fr-FR") : "";
     }
 
     function formatDate(value) {
-        if (!value) return "";
+        if (!value || value.toLowerCase() === "non renseigné") return "";
         let date = new Date(value);
         return isNaN(date.getTime()) ? value : date.toLocaleDateString("fr-FR");
+    }
+
+    function extractStreetViewLink(value) {
+        return value.includes("Voir sur Google Street View") ? value : "#";
     }
 
     // Remplissage automatique des champs
@@ -27,17 +31,25 @@ document.addEventListener("DOMContentLoaded", function() {
     setInputValue("codePostal", params.get("codePostal"));
     setInputValue("ville", params.get("ville"));
     setInputValue("typeBien", params.get("typeBien"));
+    
     setInputValue("surface", formatNumber(params.get("surface")));
+    setInputValue("nbPieces", formatNumber(params.get("nbPieces")));
     setInputValue("prix", formatNumber(params.get("prix")));
     setInputValue("dateReception", formatDate(params.get("dateReception")));
-    document.getElementById("googleMaps").href = params.get("googleMaps");
+    document.getElementById("googleMaps").href = extractStreetViewLink(params.get("googleMaps"));
 
     // Informations Agence
     setInputValue("agence", params.get("agence"));
     setInputValue("agenceAdresse", params.get("agenceAdresse"));
     setInputValue("agenceTelephone", params.get("agenceTelephone"));
     setInputValue("negociateur", params.get("negociateur"));
+    setInputValue("telephoneCommercial", params.get("telephoneCommercial"));
     setInputValue("mailCommercial", params.get("mailCommercial"));
+
+    // Statut et RDV
+    setInputValue("statutRDV", params.get("statutRDV"));
+    setInputValue("rdv", formatDate(params.get("rdv")));
+    setInputValue("notification", params.get("notification"));
 
     // Fonction pour mettre à jour Google Sheets via Google Apps Script
     function updateGoogleSheet(action, data = {}) {
