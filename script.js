@@ -51,6 +51,27 @@ document.addEventListener("DOMContentLoaded", function() {
         editableFields.forEach(id => {
             let input = document.getElementById(id);
             newData[id] = input.value;
+    document.getElementById("modifierBtn").addEventListener("click", () => {
+    let newData = {};
+    editableFields.forEach(id => {
+        let input = document.getElementById(id);
+        newData[id] = input.value;
+    });
+
+    console.log("🔍 Données envoyées :", newData); // 🔴 Debug
+
+    fetch(`https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec?action=update&row=${params.get("row")}&` + new URLSearchParams(newData).toString())
+        .then(response => response.text())
+        .then(result => {
+            console.log("✅ Réponse du serveur :", result);
+            alert("✅ Modifications enregistrées !");
+        })
+        .catch(error => {
+            console.error("❌ Erreur d'envoi :", error);
+            alert("❌ Erreur lors de l'enregistrement !");
+        });
+});
+
         });
 
         updateGoogleSheet("update", newData);
