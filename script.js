@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", function() {
             queryParams.append(key, data[key]);
         });
 
-        fetch(`https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec?` + queryParams.toString())
+        fetch(`https://script.google.com/macros/s/AKfycbzc7q5-9UOVnnwsXc0SGlVGKrrg0MxdoRJaqJJvAzqfbDcHDrgjYeiJ_KlOfHBmBCoe2w/exec?` + queryParams.toString())
             .then(response => response.text())
             .then(result => alert("✅ Modifications enregistrées avec succès !"))
             .catch(error => alert("❌ Erreur lors de l'enregistrement !"));
