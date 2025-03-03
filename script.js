@@ -18,20 +18,20 @@ document.addEventListener("DOMContentLoaded", function() {
     setInputValue("dateReception", params.get("dateReception"));
     document.getElementById("googleMaps").href = params.get("googleMaps");
 
+    document.addEventListener("DOMContentLoaded", function() {
     function updateGoogleSheet(action) {
         if (!confirm("Êtes-vous sûr de vouloir effectuer cette action ?")) return;
 
-        fetch(`https://script.google.com/macros/s/AKfycbwzQZu7sPa8q3NSKYT46Kg_9phPivfqT1l3riHQ0YmBOorroTtdMuDwgZX3dxGTvxHQLg/exec?action=${action}&row=${params.get("row")}`)
-            .then(() => alert("✅ Modifications enregistrées !"))
+        fetch(`https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec?action=${action}&row=${new URLSearchParams(window.location.search).get("row")}`)
+            .then(() => alert("✅ Action enregistrée avec succès !"))
             .catch(() => alert("❌ Erreur"));
     }
 
     document.getElementById("priseChargeBtn").addEventListener("click", () => updateGoogleSheet("confirm"));
-    document.getElementById("modifierBtn").addEventListener("click", () => {
-        let newData = new URLSearchParams();
-        document.querySelectorAll("input").forEach(input => {
-            newData.append(input.id, input.value);
-        });
+    document.getElementById("modifierBtn").addEventListener("click", () => updateGoogleSheet("update"));
+    document.getElementById("rendezVousBtn").addEventListener("click", () => updateGoogleSheet("rendezvous"));
+});
+
 
         fetch(`https://script.google.com/macros/s/AKfycbwzQZu7sPa8q3NSKYT46Kg_9phPivfqT1l3riHQ0YmBOorroTtdMuDwgZX3dxGTvxHQLg/exec?action=update&row=${params.get("row")}&` + newData.toString())
             .then(() => alert("✅ Modifications enregistrées !"));
