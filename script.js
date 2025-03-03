@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", function() {
         return value.includes("Voir sur Google Street View") ? value : "#";
     }
 
-    // Remplissage automatique des champs
+    // Récupération et affichage des données du lead
     setInputValue("nom", params.get("nom"));
     setInputValue("prenom", params.get("prenom"));
     setInputValue("email", params.get("email"));
@@ -46,10 +46,10 @@ document.addEventListener("DOMContentLoaded", function() {
     setInputValue("telephoneCommercial", params.get("telephoneCommercial"));
     setInputValue("mailCommercial", params.get("mailCommercial"));
 
-    // Statut et RDV
+    // Ajout des nouvelles colonnes demandées
+    setInputValue("brevo", params.get("brevo"));
     setInputValue("statutRDV", params.get("statutRDV"));
     setInputValue("rdv", formatDate(params.get("rdv")));
-    setInputValue("notification", params.get("notification"));
 
     // Fonction pour mettre à jour Google Sheets via Google Apps Script
     function updateGoogleSheet(action, data = {}) {
