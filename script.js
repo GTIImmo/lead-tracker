@@ -77,7 +77,7 @@ document.addEventListener("DOMContentLoaded", function () {
     function updateGoogleSheet(action, callback = null) {
         if (!confirm("Êtes-vous sûr de vouloir effectuer cette action ?")) return;
 
-        let url = `https://script.google.com/macros/s/AKfycbx8jhzit3sZ1paGd6XsYCasKn_629u258n9fO5PNP6FmjXfFC6WvUGuvT_2RRQZ93IVxA/exec?action=${action}&row=${params.get("row")}`;
+        let url = `https://script.google.com/macros/s/AKfycbzKoPG9RZbPNzW-MDXmzs99f8eMaoYFF6awbb4_NPdeBhKATXqiwfQQMtD_k__bVN0t/exec?action=${action}&row=${params.get("row")}`;
         console.log("📡 URL envoyée : " + url);
 
         fetch(url)
@@ -112,7 +112,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 return;
             }
 
-            let url = `https://script.google.com/macros/s/AKfycbx8jhzit3sZ1paGd6XsYCasKn_629u258n9fO5PNP6FmjXfFC6WvUGuvT_2RRQZ93IVxA/exec?action=update&row=${params.get("row")}`;
+            let url = `https://script.google.com/macros/s/AKfycbzKoPG9RZbPNzW-MDXmzs99f8eMaoYFF6awbb4_NPdeBhKATXqiwfQQMtD_k__bVN0t/exec?action=update&row=${params.get("row")}`;
 
             Object.keys(modifications).forEach(key => {
                 url += `&${encodeURIComponent(key)}=${encodeURIComponent(modifications[key])}`;
