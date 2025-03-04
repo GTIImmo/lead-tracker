@@ -1,7 +1,35 @@
 document.addEventListener("DOMContentLoaded", function() {
     const params = new URLSearchParams(window.location.search);
-    
-    // Correspondance exacte avec les colonnes Google Sheets
+
+    function formatTelephone(num) {
+        if (!num) return "";
+        num = num.replace(/\s+/g, '');
+        if (num.length === 9 && /^[1-9][0-9]+$/.test(num)) {
+            return "0" + num;
+        }
+        return num;
+    }
+
+    function formatDate(dateString) {
+        if (!dateString) return "";
+        let dateObj = new Date(dateString);
+        if (isNaN(dateObj)) return dateString; // Si invalide, retourne la valeur brute
+        return dateObj.toLocaleDateString("fr-FR", { year: "numeric", month: "2-digit", day: "2-digit" }) +
+               " " + dateObj.toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" });
+    }
+
+    function getParamValue(key) {
+        return decodeURIComponent(params.get(key) || "");
+    }
+
+    function setTextContent(id, value, format = null) {
+        const element = document.getElementById(id);
+        if (element) {
+            element.textContent = format ? format(value) : value || "";
+        }
+    }
+
+    // 📝 Correspondance entre les clés d'URL et les colonnes Google Sheets
     const fields = {
         "Nom": "nom",
         "Prénom": "prenom",
@@ -19,9 +47,9 @@ document.addEventListener("DOMContentLoaded", function() {
     let hasEditableFields = false;
 
     Object.keys(fields).forEach(colName => {
-        let paramKey = fields[colName]; // Récupère la clé URL correspondante
-        let value = decodeURIComponent(params.get(paramKey) || "");
-        
+        let paramKey = fields[colName]; 
+        let value = getParamValue(paramKey);
+
         let span = document.getElementById(paramKey);
         let input = document.getElementById(paramKey + "Input");
 
@@ -38,15 +66,15 @@ document.addEventListener("DOMContentLoaded", function() {
         document.getElementById("saveChangesBtn").style.display = "block";
     }
 
-    document.getElementById("saveChangesBtn").addEventListener("click", function() {
+    document.getElementById("saveChangesBtn")?.addEventListener("click", function() {
         let updatedData = { action: "update", row: params.get("row") };
 
         Object.keys(fields).forEach(colName => {
-            let paramKey = fields[colName]; 
+            let paramKey = fields[colName];
             let input = document.getElementById(paramKey + "Input");
-            
+
             if (input && input.style.display === "inline-block" && input.value) {
-                updatedData[colName] = input.value; // Utilisation du **nom exact de la colonne**
+                updatedData[colName] = input.value; // Utilisation du nom exact de la colonne
             }
         });
 
@@ -61,4 +89,52 @@ document.addEventListener("DOMContentLoaded", function() {
             })
             .catch(error => console.error("❌ Erreur :", error));
     });
+
+    // 📍 **Lien Google Maps**
+    const googleMapsLink = document.getElementById("googleMaps");
+    if (googleMapsLink && getParamValue("googleMaps")) {
+        googleMapsLink.href = getParamValue("googleMaps");
+        googleMapsLink.textContent = "📍 Voir sur Google Maps";
+    }
+
+    // 📞 **Gérer l'affichage du bouton "Appeler"**
+    const telephone = formatTelephone(getParamValue("telephone"));
+    if (telephone) {
+        document.getElementById("appelerBtn").style.display = "block";
+    } else {
+        document.getElementById("appelerBtn").style.display = "none";
+    }
+
+    function updateGoogleSheet(action, callback = null) {
+        if (!confirm("Êtes-vous sûr de vouloir effectuer cette action ?")) return;
+
+        let url = `https://script.google.com/macros/s/AKfycbx8jhzit3sZ1paGd6XsYCasKn_629u258n9fO5PNP6FmjXfFC6WvUGuvT_2RRQZ93IVxA/exec?action=${action}&row=${params.get("row")}`;
+        console.log("📡 URL envoyée : " + url);
+
+        fetch(url)
+            .then(response => response.text())
+            .then(result => {
+                console.log("✅ Réponse du serveur : " + result);
+                alert(result);
+                if (callback) callback();
+            })
+            .catch(error => console.error("❌ Erreur : " + error));
+    }
+
+    document.getElementById("appelerBtn")?.addEventListener("click", function() {
+        if (/Mobi|Android/i.test(navigator.userAgent)) {
+            updateGoogleSheet("appel", function() {
+                setTimeout(() => {
+                    window.location.href = "tel:" + telephone;
+                }, 1000);
+            });
+        } else {
+            alert("📞 Numéro du lead : " + telephone);
+            updateGoogleSheet("appel");
+        }
+    });
+
+    document.getElementById("priseChargeBtn")?.addEventListener("click", () => updateGoogleSheet("confirm"));
+    document.getElementById("modifierBtn")?.addEventListener("click", () => updateGoogleSheet("update"));
+    document.getElementById("rendezVousBtn")?.addEventListener("click", () => updateGoogleSheet("rendezvous"));
 });
