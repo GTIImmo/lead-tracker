@@ -1,157 +1,156 @@
-/* 🌟 RÉGLAGES GÉNÉRAUX */
-body {
-    font-family: 'Arial', sans-serif;
-    background-color: #f9f9f9; /* Fond clair */
-    color: #333;
+/* ✅ Réinitialisation du style pour une meilleure cohérence */
+* {
     margin: 0;
     padding: 0;
-    text-align: center;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
 }
 
-/* ✅ CONTAINER PRINCIPAL */
-.container {
-    max-width: 900px;
-    margin: 20px auto;
+/* 🌟 Mise en page générale du site */
+body {
+    background-color: #f9f9f9; /* Fond clair */
+    color: #333; /* Texte sombre */
     padding: 20px;
-    background: white;
-    border-radius: 10px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-/* 🎨 LOGO GTI AVEC FOND ANTHRACITE */
+/* 📌 Conteneur principal */
+.container {
+    max-width: 800px;
+    margin: auto;
+    background: #fff; /* Fond blanc pour la fiche lead */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* 🏠 Logo avec fond anthracite pour qu'il ressorte bien */
 .logo-container {
-    background: #222; /* Fond anthracite */
-    padding: 15px;
     text-align: center;
-    border-radius: 10px 10px 0 0; /* Arrondi en haut */
+    background-color: #333; /* Fond anthracite */
+    padding: 15px;
+    border-radius: 8px;
 }
 
-.logo-container img {
-    max-width: 180px; /* Taille contrôlée du logo */
+.logo {
+    width: 180px;
+    display: block;
+    margin: auto;
 }
 
-/* 🏷️ TITRE PRINCIPAL */
-h1 {
-    font-size: 24px;
+/* 📍 Titre "Détail du Lead" */
+h1#leadTitle {
+    font-size: 22px;
+    color: #ff9800; /* Orange GTI Immobilier */
     font-weight: bold;
-    color: #ff9800; /* Couleur GTI */
-    margin-top: 15px;
+    text-align: center;
+    margin-top: 20px;
     text-transform: uppercase;
 }
 
-/* 🔥 SECTIONS PRINCIPALES */
-.section {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    padding: 15px;
-    border-radius: 8px;
-    background: #fff;
+/* 🏡 Informations du Lead */
+.lead-info {
     margin: 20px 0;
-    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    background: #f0f0f0; /* Léger fond gris */
+    border-radius: 8px;
 }
 
-.section h2 {
-    width: 100%;
-    font-size: 20px;
-    color: #444;
-    border-bottom: 2px solid #ff9800;
-    padding-bottom: 5px;
-    margin-bottom: 10px;
-    text-align: left;
-}
-
-/* 🏠 PARTIE "LE BIEN" */
-.bien, .contact {
-    flex: 1;
-    min-width: 250px;
-    padding: 10px;
-}
-
-.bien p, .contact p {
-    display: flex;
-    align-items: center;
+.lead-info p {
     font-size: 16px;
-    padding: 8px;
-    margin: 0;
-    border-radius: 6px;
+    margin: 8px 0;
 }
 
-/* ✅ AJOUT D'ICÔNES DEVANT CHAQUE INFO */
-.bien p::before, .contact p::before {
-    font-family: "Arial";
+/* 🏷️ Ajout d'icônes pour les infos du lead */
+.lead-info p::before {
+    content: "📌 ";
     font-weight: bold;
-    font-size: 18px;
-    color: #ff9800;
-    margin-right: 10px;
 }
 
-/* 🔹 Icônes personnalisées */
-.contact p:nth-child(2)::before { content: "📞"; } /* Téléphone */
-.contact p:nth-child(3)::before { content: "✉️"; } /* Email */
-.contact p:nth-child(4)::before { content: "📍"; } /* Adresse */
+/* 📞 Style spécifique pour le téléphone */
+.lead-info p.telephone::before {
+    content: "📞 ";
+}
 
-.bien p:nth-child(2)::before { content: "🏡"; } /* Type de bien */
-.bien p:nth-child(3)::before { content: "📏"; } /* Surface */
-.bien p:nth-child(4)::before { content: "🚪"; } /* Nombre de pièces */
-.bien p:nth-child(5)::before { content: "💰"; } /* Prix */
+/* 🏠 Style spécifique pour l'adresse */
+.lead-info p.adresse::before {
+    content: "🏡 ";
+}
 
-/* 🔘 BOUTONS */
+/* 📍 Style pour Google Maps */
+.lead-info p.google-maps::before {
+    content: "🗺️ ";
+}
+
+/* ✅ Boutons d’action */
 button {
-    background: #ff9800;
-    color: white;
-    padding: 12px 18px;
+    display: block;
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    font-weight: bold;
     border: none;
     border-radius: 5px;
-    font-size: 16px;
     cursor: pointer;
-    margin: 10px;
-    transition: all 0.3s;
+    margin: 10px 0;
+    transition: 0.3s;
 }
 
-button:hover {
-    background: #e68a00;
+/* 📞 Bouton "Appeler" */
+.btn-call {
+    background-color: #28a745; /* Vert */
+    color: white;
 }
 
-/* 📞 BOUTON "APPELER" */
-#appelerBtn {
-    background: #008cba;
+.btn-call:hover {
+    background-color: #218838;
 }
 
-#appelerBtn:hover {
-    background: #006b8f;
+/* 🛠️ Bouton "Modifier" */
+.btn-modify {
+    background-color: #007bff; /* Bleu */
+    color: white;
 }
 
-/* 📅 BOUTON "RENDEZ-VOUS" */
-#rendezVousBtn {
-    background: #4CAF50;
+.btn-modify:hover {
+    background-color: #0056b3;
 }
 
-#rendezVousBtn:hover {
-    background: #3e8e41;
+/* 📅 Bouton "Rendez-vous" */
+.btn-rdv {
+    background-color: #ff9800; /* Orange */
+    color: white;
 }
 
-/* ✅ BOUTON "C'EST NOTÉ" */
-#priseChargeBtn {
-    background: #f77f00;
+.btn-rdv:hover {
+    background-color: #e68900;
 }
 
-#priseChargeBtn:hover {
-    background: #c96d00;
+/* ✅ Bouton "C'est noté" */
+.btn-confirm {
+    background-color: #6c757d; /* Gris foncé */
+    color: white;
 }
 
-/* 📱 RESPONSIVE : ADAPTATION POUR MOBILE */
-@media screen and (max-width: 768px) {
+.btn-confirm:hover {
+    background-color: #5a6268;
+}
+
+/* 🖥️ Responsive Design */
+@media (max-width: 768px) {
     .container {
-        width: 95%;
         padding: 15px;
     }
     
-    .section {
-        flex-direction: column;
+    h1#leadTitle {
+        font-size: 18px;
     }
 
-    h1 {
-        font-size: 20px;
+    .lead-info p {
+        font-size: 14px;
+    }
+
+    button {
+        font-size: 14px;
+        padding: 10px;
     }
 }
