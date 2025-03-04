@@ -1,51 +1,64 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Suivi des Leads - GTI Immobilier</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
+document.addEventListener("DOMContentLoaded", function() {
+    const params = new URLSearchParams(window.location.search);
+    
+    // Correspondance exacte avec les colonnes Google Sheets
+    const fields = {
+        "Nom": "nom",
+        "Prénom": "prenom",
+        "Email": "email",
+        "Téléphone": "telephone",
+        "Adresse": "adresse",
+        "Code Postal": "codePostal",
+        "Ville": "ville",
+        "Type de Bien": "typeBien",
+        "Surface": "surface",
+        "Nombre de Pièces": "nbPieces",
+        "Prix": "prix"
+    };
 
-    <!-- 🌟 Logo avec fond anthracite -->
-    <header>
-        <div class="header">
-            <img src="https://www.gti-immobilier.fr/application/files/5617/3617/2343/GTI-Logos-Grisblanc.png" alt="GTI Immobilier" class="logo">
-        </div>
-    </header>
+    let hasEditableFields = false;
 
-    <!-- 📋 Conteneur principal -->
-    <div class="container">
-        <h1>🔎 Détails du Lead</h1>
+    Object.keys(fields).forEach(colName => {
+        let paramKey = fields[colName]; // Récupère la clé URL correspondante
+        let value = decodeURIComponent(params.get(paramKey) || "");
+        
+        let span = document.getElementById(paramKey);
+        let input = document.getElementById(paramKey + "Input");
 
-        <!-- 📌 Zone d'affichage des informations en 2 colonnes -->
-        <div class="lead-info">
-            <p id="nom"></p>
-            <p id="prenom"></p>
-            <p id="email"></p>
-            <p id="telephone"></p>
-            <p id="adresse"></p>
-            <p id="codePostal"></p>
-            <p id="ville"></p>
-            <p id="typeBien"></p>
-            <p id="surface"></p>
-            <p id="nbPieces"></p>
-            <p id="prix"></p>
-            <p id="statutRDV"></p>
-            <p id="rdv"></p>
-        </div>
+        if (value) {
+            span.textContent = value;
+        } else {
+            input.style.display = "inline-block";
+            span.style.display = "none";
+            hasEditableFields = true;
+        }
+    });
 
-        <!-- 📞 Boutons d'actions -->
-        <div class="buttons">
-            <button id="priseChargeBtn" class="btn btn-secondary">✅ C'est noté</button>
-            <button id="appelerBtn" class="btn btn-warning">📞 Appeler</button>
-            <button id="modifierBtn" class="btn btn-info">📝 Modifier</button>
-            <button id="rendezVousBtn" class="btn btn-primary">📅 Prendre un rendez-vous</button>
-            <button id="enregistrerModifications" class="btn btn-success" style="display: none;">💾 Enregistrer</button>
-        </div>
-    </div>
+    if (hasEditableFields) {
+        document.getElementById("saveChangesBtn").style.display = "block";
+    }
 
-    <script src="script.js"></script>
-</body>
-</html>
+    document.getElementById("saveChangesBtn").addEventListener("click", function() {
+        let updatedData = { action: "update", row: params.get("row") };
+
+        Object.keys(fields).forEach(colName => {
+            let paramKey = fields[colName]; 
+            let input = document.getElementById(paramKey + "Input");
+            
+            if (input && input.style.display === "inline-block" && input.value) {
+                updatedData[colName] = input.value; // Utilisation du **nom exact de la colonne**
+            }
+        });
+
+        let queryString = new URLSearchParams(updatedData).toString();
+        let url = `https://script.google.com/macros/s/AKfycbx8jhzit3sZ1paGd6XsYCasKn_629u258n9fO5PNP6FmjXfFC6WvUGuvT_2RRQZ93IVxA/exec?${queryString}`;
+        
+        fetch(url)
+            .then(response => response.text())
+            .then(result => {
+                alert("✅ Modifications enregistrées !");
+                location.reload();
+            })
+            .catch(error => console.error("❌ Erreur :", error));
+    });
+});
