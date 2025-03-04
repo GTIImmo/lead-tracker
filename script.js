@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }
 
-    // Remplissage automatique des champs avec les valeurs du lead
+    // Pré-remplissage des champs avec les données du lead
     setInputValue("nom", params.get("nom"));
     setInputValue("prenom", params.get("prenom"));
     setInputValue("email", params.get("email"));
@@ -27,6 +27,7 @@ document.addEventListener("DOMContentLoaded", function() {
         googleMapsLink.href = params.get("googleMaps");
     }
 
+    // Fonction pour envoyer les actions vers Google Sheets via Google Apps Script
     function updateGoogleSheet(action) {
         if (!confirm("Êtes-vous sûr de vouloir effectuer cette action ?")) return;
 
@@ -35,9 +36,10 @@ document.addEventListener("DOMContentLoaded", function() {
             .catch(() => alert("❌ Erreur lors de l'enregistrement"));
     }
 
-    document.getElementById("rendezVousBtn")?.addEventListener("click", () => updateGoogleSheet("rendezvous"));
+    // Gestion du bouton "C'est noté"
     document.getElementById("priseChargeBtn")?.addEventListener("click", () => updateGoogleSheet("confirm"));
 
+    // Gestion du bouton "Modifier"
     document.getElementById("modifierBtn")?.addEventListener("click", () => {
         let newData = new URLSearchParams();
         document.querySelectorAll("input").forEach(input => {
@@ -47,5 +49,28 @@ document.addEventListener("DOMContentLoaded", function() {
         fetch(`https://script.google.com/macros/s/AKfycbwzQZu7sPa8q3NSKYT46Kg_9phPivfqT1l3riHQ0YmBOorroTtdMuDwgZX3dxGTvxHQLg/exec?action=update&row=${params.get("row")}&` + newData.toString())
             .then(() => alert("✅ Modifications enregistrées avec succès !"))
             .catch(() => alert("❌ Erreur lors de la mise à jour"));
+    });
+
+    // Gestion du bouton "Rendez-vous"
+    document.getElementById("rendezVousBtn")?.addEventListener("click", () => updateGoogleSheet("rendezvous"));
+
+    // Gestion du bouton "📞 Appeler" (Mobile & PC)
+    const telephone = params.get("telephone");
+    if (telephone) {
+        document.getElementById("appelerBtn").style.display = "block";
+    } else {
+        document.getElementById("appelerBtn").style.display = "none";
+    }
+
+    document.getElementById("appelerBtn")?.addEventListener("click", function() {
+        if (/Mobi|Android/i.test(navigator.userAgent)) {
+            // Sur mobile : ouvre l'application téléphone
+            window.location.href = "tel:" + telephone;
+            updateGoogleSheet("appel");
+        } else {
+            // Sur PC : Affiche un message avec le numéro
+            alert("📞 Numéro du lead : " + telephone);
+            updateGoogleSheet("appel");
+        }
     });
 });
