@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     // 🚀 **Pré-remplissage des informations du lead**
-    const fields = ["nom", "prenom", "email", "telephone", "adresse", "codePostal", "ville", "typeBien", "surface", "nbPieces", "prix"];
+    const fields = ["nom", "prenom", "email", "telephone", "adresse", "codePostal", "ville", "Type de Bien", "surface", "nbPieces", "prix"];
     let modifications = {};
     let hasEmptyFields = false;
 
