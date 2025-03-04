@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", function() {
     setInputValue("nom", params.get("nom"));
     setInputValue("prenom", params.get("prenom"));
     setInputValue("email", params.get("email"));
-    setInputValue("telephone", telephone);
+    setInputValue("telephone", formatTelephone(telephone));
     setInputValue("adresse", params.get("adresse"));
     setInputValue("codePostal", params.get("codePostal"));
     setInputValue("ville", params.get("ville"));
