@@ -13,6 +13,7 @@ document.addEventListener("DOMContentLoaded", function() {
     setInputValue("nom", params.get("nom"));
     setInputValue("prenom", params.get("prenom"));
     setInputValue("email", params.get("email"));
+    setInputValue("telephone", telephone);
     setInputValue("adresse", params.get("adresse"));
     setInputValue("codePostal", params.get("codePostal"));
     setInputValue("ville", params.get("ville"));
@@ -41,14 +42,11 @@ document.addEventListener("DOMContentLoaded", function() {
         googleMapsLink.href = params.get("googleStreetView");
     }
 
-    // 📞 **Masquer le numéro de téléphone et afficher un message générique**
-    const telephonePlaceholder = document.getElementById("telephonePlaceholder");
+    // 📞 **Gérer l'affichage du bouton "Appeler"**
     if (telephone) {
         document.getElementById("appelerBtn").style.display = "block";
-        telephonePlaceholder.textContent = "Cliquez sur 📞 Appeler";
     } else {
         document.getElementById("appelerBtn").style.display = "none";
-        telephonePlaceholder.textContent = "Non disponible";
     }
 
     // 🛠️ **Fonction pour mettre à jour Google Sheets**
@@ -63,28 +61,24 @@ document.addEventListener("DOMContentLoaded", function() {
             .then(result => {
                 console.log("✅ Réponse du serveur : " + result);
                 alert(result);
-                if (callback) callback();
+                if (callback) callback(); // Exécute la suite après mise à jour (ex: appel mobile)
             })
             .catch(error => console.error("❌ Erreur : " + error));
     }
 
-    // 📞 **Gérer le bouton "Appeler" (Mobile & PC)**
+    // 📞 **Bouton "Appeler" (différent sur PC et mobile)**
     document.getElementById("appelerBtn")?.addEventListener("click", function() {
         if (/Mobi|Android/i.test(navigator.userAgent)) {
-            // 📱 Mobile : Enregistrer l'appel, puis ouvrir l'application téléphone
+            // 📱 Mobile : Enregistrer d'abord dans Google Sheets puis appeler
             updateGoogleSheet("appel", function() {
                 setTimeout(() => {
                     window.location.href = "tel:" + telephone;
-                }, 1000);
+                }, 1000); // ⏳ Petit délai pour laisser Google Sheets s'enregistrer
             });
         } else {
-            // 🖥️ PC : Afficher temporairement le numéro
-            updateGoogleSheet("appel", function() {
-                telephonePlaceholder.textContent = `📞 ${telephone}`;
-                setTimeout(() => {
-                    telephonePlaceholder.textContent = "Cliquez sur 📞 Appeler";
-                }, 5000); // ⏳ Masquer après 5 secondes
-            });
+            // 🖥️ PC : Afficher une popup avec le numéro
+            alert("📞 Numéro du lead : " + telephone);
+            updateGoogleSheet("appel");
         }
     });
 
