@@ -63,14 +63,16 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     document.getElementById("appelerBtn")?.addEventListener("click", function() {
-        if (/Mobi|Android/i.test(navigator.userAgent)) {
-            // Sur mobile : ouvre l'application téléphone
-            window.location.href = "tel:" + telephone;
-            updateGoogleSheet("appel");
-        } else {
-            // Sur PC : Affiche un message avec le numéro
-            alert("📞 Numéro du lead : " + telephone);
-            updateGoogleSheet("appel");
-        }
-    });
+    if (/Mobi|Android/i.test(navigator.userAgent)) {
+        // 📱 Sur mobile : Enregistrer d'abord dans Google Sheets puis appeler
+        updateGoogleSheet("appel", function() {
+            setTimeout(() => {
+                window.location.href = "tel:" + telephone;
+            }, 1000); // ⏳ Petit délai pour laisser Google Sheets s'enregistrer
+        });
+    } else {
+        // 🖥️ Sur PC : Afficher le numéro et enregistrer l'appel
+        alert("📞 Numéro du lead : " + telephone);
+        updateGoogleSheet("appel");
+    }
 });
