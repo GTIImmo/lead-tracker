@@ -1,75 +1,131 @@
-/* 🌟 Fond anthracite derrière le logo */
-header {
-    background-color: #1E1E1E;
-    padding: 20px;
-    text-align: center;
+/* 🌟 Général */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+    margin: 0;
+    padding: 0;
 }
 
-/* 📌 Logo bien visible */
+/* 🌟 Bandeau du logo */
+.header {
+    background-color: #333;
+    text-align: center;
+    padding: 20px 0;
+}
+
 .logo {
     max-width: 200px;
 }
 
-/* 🌿 Conteneur principal avec fond clair */
+/* 📋 Conteneur principal */
 .container {
-    background-color: #F5F5F5; /* Fond clair */
-    padding: 30px;
     max-width: 600px;
+    background-color: white;
     margin: 20px auto;
+    padding: 20px;
     border-radius: 10px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
     text-align: center;
 }
 
-/* 📝 Zone d'affichage des infos */
-.lead-info {
-    font-size: 18px;
-    color: #333;
-    line-height: 1.5;
-    padding: 10px;
+/* 📋 Titre principal */
+h1 {
+    font-size: 22px;
+    color: #F77F00;
+}
+
+/* 📋 Infos du lead avec icônes */
+.lead-info p {
+    font-size: 16px;
+    padding: 8px 0;
+    border-bottom: 1px solid #ddd;
     text-align: left;
 }
 
-/* 📞 Boutons */
+/* 🏡 Icônes pour chaque type d'info */
+.lead-info p::before {
+    font-family: "Arial", sans-serif;
+    margin-right: 10px;
+}
+
+#nom::before { content: "👤 Nom : "; font-weight: bold; }
+#prenom::before { content: "🆔 Prénom : "; font-weight: bold; }
+#email::before { content: "📧 Email : "; font-weight: bold; }
+#telephone::before { content: "📞 Téléphone : "; font-weight: bold; }
+#adresse::before { content: "📍 Adresse : "; font-weight: bold; }
+#codePostal::before { content: "📮 Code Postal : "; font-weight: bold; }
+#ville::before { content: "🏙️ Ville : "; font-weight: bold; }
+#typeBien::before { content: "🏡 Type de bien : "; font-weight: bold; }
+#surface::before { content: "📏 Surface : "; font-weight: bold; }
+#nbPieces::before { content: "🚪 Nombre de pièces : "; font-weight: bold; }
+#prix::before { content: "💰 Prix estimé : "; font-weight: bold; }
+#statutRDV::before { content: "📆 Statut RDV : "; font-weight: bold; }
+#rdv::before { content: "📅 RDV : "; font-weight: bold; }
+
+/* 📍 Lien Google Maps */
+#googleMaps {
+    display: inline-block;
+    text-decoration: none;
+    color: #E63946;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+/* 🎨 Boutons */
 .buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
     margin-top: 20px;
 }
 
 .btn {
-    display: block;
-    width: 100%;
-    padding: 15px;
-    margin: 5px 0;
     font-size: 16px;
+    padding: 12px;
     border: none;
-    border-radius: 5px;
     cursor: pointer;
-    text-align: center;
+    width: 100%;
+    border-radius: 5px;
+    transition: background 0.3s ease-in-out;
 }
 
+/* ✅ Bouton "C'est noté" */
 .btn-secondary {
+    background-color: #2a9d8f;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background-color: #21867a;
+}
+
+/* 📞 Bouton "Appeler" en rouge */
+.btn-warning {
     background-color: #E63946;
     color: white;
 }
 
+.btn-warning:hover {
+    background-color: #C32F39;
+}
+
+/* 📝 Bouton "Modifier" */
 .btn-info {
-    background-color: #457B9D;
+    background-color: #457b9d;
     color: white;
 }
 
+.btn-info:hover {
+    background-color: #33658a;
+}
+
+/* 📅 Bouton "Prendre RDV" */
 .btn-primary {
-    background-color: #1D3557;
-    color: white;
-}
-
-.btn-warning {
     background-color: #F77F00;
     color: white;
 }
 
-/* 🔍 Lien Google Maps */
-#googleMaps {
-    color: #E63946;
-    font-weight: bold;
-    text-decoration: none;
+.btn-primary:hover {
+    background-color: #D96400;
 }
