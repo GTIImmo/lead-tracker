@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", function() {
     function updateGoogleSheet(action) {
         if (!confirm("Êtes-vous sûr de vouloir effectuer cette action ?")) return;
 
-        fetch(`https://script.google.com/macros/s/AKfycbwzQZu7sPa8q3NSKYT46Kg_9phPivfqT1l3riHQ0YmBOorroTtdMuDwgZX3dxGTvxHQLg/exec?action=${action}&row=${params.get("row")}`)
+        fetch(`https://script.google.com/macros/s/AKfycbx8jhzit3sZ1paGd6XsYCasKn_629u258n9fO5PNP6FmjXfFC6WvUGuvT_2RRQZ93IVxA/exec?action=${action}&row=${params.get("row")}`)
             .then(() => alert("✅ Action enregistrée avec succès !"))
             .catch(() => alert("❌ Erreur lors de l'enregistrement"));
     }
@@ -46,7 +46,7 @@ document.addEventListener("DOMContentLoaded", function() {
             newData.append(input.id, input.value);
         });
 
-        fetch(`https://script.google.com/macros/s/AKfycbwzQZu7sPa8q3NSKYT46Kg_9phPivfqT1l3riHQ0YmBOorroTtdMuDwgZX3dxGTvxHQLg/exec?action=update&row=${params.get("row")}&` + newData.toString())
+        fetch(`https://script.google.com/macros/s/AKfycbx8jhzit3sZ1paGd6XsYCasKn_629u258n9fO5PNP6FmjXfFC6WvUGuvT_2RRQZ93IVxA/exec?action=update&row=${params.get("row")}&` + newData.toString())
             .then(() => alert("✅ Modifications enregistrées avec succès !"))
             .catch(() => alert("❌ Erreur lors de la mise à jour"));
     });
