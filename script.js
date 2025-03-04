@@ -10,6 +10,14 @@ document.addEventListener("DOMContentLoaded", function() {
         return num;
     }
 
+    function formatDate(dateString) {
+        if (!dateString) return "";
+        let dateObj = new Date(dateString);
+        if (isNaN(dateObj)) return dateString; // Si invalide, retourne la valeur brute
+        return dateObj.toLocaleDateString("fr-FR", { year: "numeric", month: "2-digit", day: "2-digit" }) +
+               " " + dateObj.toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" });
+    }
+
     function getParamValue(key) {
         for (let [paramKey, paramValue] of params.entries()) {
             if (decodeURIComponent(paramKey).toLowerCase().trim() === key.toLowerCase().trim()) {
@@ -19,10 +27,10 @@ document.addEventListener("DOMContentLoaded", function() {
         return "";
     }
 
-    function setTextContent(id, value) {
+    function setTextContent(id, value, format = null) {
         const element = document.getElementById(id);
         if (element) {
-            element.textContent = value || "";
+            element.textContent = format ? format(value) : value || "";
         }
     }
 
@@ -46,7 +54,8 @@ document.addEventListener("DOMContentLoaded", function() {
     setTextContent("telephoneCommercial", getParamValue("telephoneCommercial"));
     setTextContent("brevo", getParamValue("brevo"));
     setTextContent("statutRDV", getParamValue("statutRDV"));
-    setTextContent("rdv", getParamValue("rdv"));
+    setTextContent("rdv", getParamValue("rdv"), formatDate); // 📅 Format date RDV
+    setTextContent("dateReception", getParamValue("dateReception"), formatDate); // 🗓️ Format date Réception
     setTextContent("notification", getParamValue("notification"));
 
     // 📍 **Lien Google Maps**
@@ -67,7 +76,7 @@ document.addEventListener("DOMContentLoaded", function() {
     function updateGoogleSheet(action, callback = null) {
         if (!confirm("Êtes-vous sûr de vouloir effectuer cette action ?")) return;
 
-        let url = `https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec?action=${action}&row=${params.get("row")}`;
+        let url = `https://script.google.com/macros/s/AKfycbx8jhzit3sZ1paGd6XsYCasKn_629u258n9fO5PNP6FmjXfFC6WvUGuvT_2RRQZ93IVxA/exec?action=${action}&row=${params.get("row")}`;
         console.log("📡 URL envoyée : " + url);
 
         fetch(url)
