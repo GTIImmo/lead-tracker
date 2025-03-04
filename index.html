@@ -1,41 +1,89 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Suivi des Leads - GTI Immobilier</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <header>
-        <img src="https://www.gti-immobilier.fr/application/files/5617/3617/2343/GTI-Logos-Grisblanc.png" alt="GTI Immobilier" class="logo">
-    </header>
+document.addEventListener("DOMContentLoaded", function() {
+    const params = new URLSearchParams(window.location.search);
+    const telephone = params.get("telephone");
 
-    <div class="container">
-        <h1>📋 Détails du Lead</h1>
-        <form id="leadForm">
-            <label>Nom :</label> <input type="text" id="nom">
-            <label>Prénom :</label> <input type="text" id="prenom">
-            <label>Email :</label> <input type="email" id="email">
-            <label>Téléphone :</label> <span id="telephonePlaceholder">Cliquez sur 📞 Appeler</span>
-            <label>Adresse :</label> <input type="text" id="adresse">
-            <label>Code Postal :</label> <input type="text" id="codePostal">
-            <label>Ville :</label> <input type="text" id="ville">
-            <label>Type de bien :</label> <input type="text" id="typeBien">
-            <label>Surface :</label> <input type="number" id="surface">
-            <label>Prix estimé :</label> <input type="number" id="prix">
-            <label>Date de réception :</label> <input type="text" id="dateReception">
-            <label>📍 <a id="googleMaps" href="#" target="_blank">Voir sur Google Maps</a></label>
-        </form>
+    function setInputValue(id, value) {
+        const inputElement = document.getElementById(id);
+        if (inputElement) {
+            inputElement.value = value || "";
+        }
+    }
 
-        <div class="action-buttons">
-            <button id="priseChargeBtn" class="btn btn-secondary">✅ C'est noté</button>
-            <button id="appelerBtn" class="btn btn-warning">📞 Appeler</button>
-            <button id="modifierBtn" class="btn btn-info">📝 Modifier</button>
-            <button id="rendezVousBtn" class="btn btn-primary">📅 Prendre un rendez-vous</button>
-        </div>
-    </div>
+    // 📝 **Pré-remplissage des champs du lead avec les données de l'URL**
+    setInputValue("nom", params.get("nom"));
+    setInputValue("prenom", params.get("prenom"));
+    setInputValue("email", params.get("email"));
+    setInputValue("telephone", telephone);
+    setInputValue("adresse", params.get("adresse"));
+    setInputValue("codePostal", params.get("codePostal"));
+    setInputValue("ville", params.get("ville"));
+    setInputValue("typeBien", params.get("typeBien"));
+    setInputValue("surface", params.get("surface"));
+    setInputValue("nbPieces", params.get("nbPieces"));
+    setInputValue("prix", params.get("prix"));
+    setInputValue("dateReception", params.get("dateReception"));
+    setInputValue("googleStreetView", params.get("googleStreetView"));
+    setInputValue("validation", params.get("validation"));
+    setInputValue("idEmail", params.get("idEmail"));
+    setInputValue("agenceEnCharge", params.get("agenceEnCharge"));
+    setInputValue("agenceAdresse", params.get("agenceAdresse"));
+    setInputValue("agenceTelephone", params.get("agenceTelephone"));
+    setInputValue("negociateurAffecte", params.get("negociateurAffecte"));
+    setInputValue("telephoneCommercial", params.get("telephoneCommercial"));
+    setInputValue("mailCommercial", params.get("mailCommercial"));
+    setInputValue("brevo", params.get("brevo"));
+    setInputValue("statutRDV", params.get("statutRDV"));
+    setInputValue("rdv", params.get("rdv"));
+    setInputValue("notification", params.get("notification"));
 
-    <script src="script.js"></script>
-</body>
-</html>
+    // 📍 **Lien Google Maps**
+    const googleMapsLink = document.getElementById("googleMaps");
+    if (googleMapsLink && params.get("googleStreetView")) {
+        googleMapsLink.href = params.get("googleStreetView");
+    }
+
+    // 📞 **Gérer l'affichage du bouton "Appeler"**
+    if (telephone) {
+        document.getElementById("appelerBtn").style.display = "block";
+    } else {
+        document.getElementById("appelerBtn").style.display = "none";
+    }
+
+    // 🛠️ **Fonction pour mettre à jour Google Sheets**
+    function updateGoogleSheet(action, callback = null) {
+        if (!confirm("Êtes-vous sûr de vouloir effectuer cette action ?")) return;
+
+        let url = `https://script.google.com/macros/s/AKfycbx8jhzit3sZ1paGd6XsYCasKn_629u258n9fO5PNP6FmjXfFC6WvUGuvT_2RRQZ93IVxA/exec?action=${action}&row=${params.get("row")}`;
+        console.log("📡 URL envoyée : " + url);
+
+        fetch(url)
+            .then(response => response.text())
+            .then(result => {
+                console.log("✅ Réponse du serveur : " + result);
+                alert(result);
+                if (callback) callback(); // Exécute la suite après mise à jour (ex: appel mobile)
+            })
+            .catch(error => console.error("❌ Erreur : " + error));
+    }
+
+    // 📞 **Bouton "Appeler" (différent sur PC et mobile)**
+    document.getElementById("appelerBtn")?.addEventListener("click", function() {
+        if (/Mobi|Android/i.test(navigator.userAgent)) {
+            // 📱 Mobile : Enregistrer d'abord dans Google Sheets puis appeler
+            updateGoogleSheet("appel", function() {
+                setTimeout(() => {
+                    window.location.href = "tel:" + telephone;
+                }, 1000); // ⏳ Petit délai pour laisser Google Sheets s'enregistrer
+            });
+        } else {
+            // 🖥️ PC : Afficher une popup avec le numéro
+            alert("📞 Numéro du lead : " + telephone);
+            updateGoogleSheet("appel");
+        }
+    });
+
+    // ✅ **Boutons d'action sur le lead**
+    document.getElementById("priseChargeBtn")?.addEventListener("click", () => updateGoogleSheet("confirm"));
+    document.getElementById("modifierBtn")?.addEventListener("click", () => updateGoogleSheet("update"));
+    document.getElementById("rendezVousBtn")?.addEventListener("click", () => updateGoogleSheet("rendezvous"));
+});
