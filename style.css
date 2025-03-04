@@ -10,17 +10,17 @@
 body {
     background-color: #f8f9fa;
     color: #333;
-    padding: 20px;
+    padding: 30px;
 }
 
 /* 📌 Conteneur principal */
 .container {
-    max-width: 800px;
+    max-width: 900px;
     margin: auto;
     background: #ffffff;
-    padding: 25px;
-    border-radius: 10px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.15);
 }
 
 /* 🎯 Header avec logo */
@@ -41,42 +41,54 @@ body {
 
 /* 📝 Titre principal */
 h1#leadTitle {
-    font-size: 20px;
+    font-size: 24px;
     color: #007bff;
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+h1#leadTitle::before {
+    content: "📋";
+    font-size: 28px;
+    margin-right: 10px;
 }
 
 /* 📋 Infos du lead */
 .lead-info {
     background-color: #ffffff;
-    padding: 15px;
+    padding: 20px;
     border-radius: 8px;
     box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
-    margin-bottom: 15px;
+    margin-bottom: 20px;
 }
 
 /* 📌 Alignement des champs */
 .lead-info p {
-    font-size: 16px;
-    padding: 10px;
+    font-size: 17px;
+    padding: 12px 0;
     border-bottom: 1px solid #ddd;
     display: flex;
     align-items: center;
+    justify-content: space-between;
 }
 
 /* 🏷️ Labels des champs */
 .lead-info p strong {
-    min-width: 150px; /* 🔹 Assure l’alignement des labels */
+    min-width: 180px; /* 🔹 Assure l’alignement des labels */
 }
 
 /* 📥 Champs input */
 .lead-info input {
     flex: 1;
     border: 1px solid #ccc;
-    padding: 8px;
+    padding: 10px;
     border-radius: 5px;
-    font-size: 16px;
+    font-size: 17px;
+    width: 100%;
+    max-width: 400px;
 }
 
 /* 🌍 Lien Google Maps */
@@ -95,9 +107,9 @@ h1#leadTitle {
     justify-content: center;
     align-items: center;
     width: 100%;
-    padding: 14px;
-    margin: 10px 0;
-    font-size: 16px;
+    padding: 15px;
+    margin: 12px 0;
+    font-size: 17px;
     font-weight: bold;
     border-radius: 6px;
     text-align: center;
@@ -105,7 +117,7 @@ h1#leadTitle {
     cursor: pointer;
     transition: all 0.3s ease-in-out;
     border: none;
-    box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.1);
 }
 
 /* 🎨 Couleurs des boutons */
@@ -129,19 +141,24 @@ h1#leadTitle {
     background: #c82333;
 }
 
-/* 🖥️ Responsive */
-@media screen and (max-width: 600px) {
+/* 📱 Responsive pour mobile */
+@media screen and (max-width: 768px) {
     .container {
-        width: 100%;
-        padding: 15px;
+        width: 95%;
+        padding: 20px;
     }
 
     h1#leadTitle {
-        font-size: 18px;
+        font-size: 20px;
+    }
+
+    .lead-info p {
+        flex-direction: column;
+        align-items: flex-start;
     }
 
     .btn {
-        font-size: 14px;
+        font-size: 15px;
         padding: 12px;
     }
 }
