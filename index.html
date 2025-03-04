@@ -20,28 +20,16 @@
         <h1>🔎 Détails du Lead</h1>
 
         <!-- 📌 Zone d'affichage des informations en 2 colonnes -->
-        <div class="lead-info">
-            <p id="nom"></p>
-            <p id="prenom"></p>
-            <p id="email"></p>
-            <p id="telephone"></p>
-            <p id="adresse"></p>
-            <p id="codePostal"></p>
-            <p id="ville"></p>
-            <p id="typeBien"></p>
-            <p id="surface"></p>
-            <p id="nbPieces"></p>
-            <p id="prix"></p>
-            <p id="statutRDV"></p>
-            <p id="rdv"></p>
+        <div class="lead-info" id="leadInfo">
+            <!-- Les informations seront générées ici -->
         </div>
 
         <!-- 📞 Boutons d'actions -->
         <div class="buttons">
             <button id="priseChargeBtn" class="btn btn-secondary">✅ C'est noté</button>
             <button id="appelerBtn" class="btn btn-warning">📞 Appeler</button>
-            <button id="modifierBtn" class="btn btn-info">📝 Modifier</button>
             <button id="rendezVousBtn" class="btn btn-primary">📅 Prendre un rendez-vous</button>
+            <button id="saveChangesBtn" class="btn btn-success" style="display: none;">💾 Enregistrer les modifications</button>
         </div>
     </div>
 
