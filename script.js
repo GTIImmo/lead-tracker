@@ -81,16 +81,18 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // 📞 **Bouton "Appeler" (différent sur PC et mobile)**
     document.getElementById("appelerBtn")?.addEventListener("click", function() {
+        const formattedTelephone = formatTelephone(telephone);
+
         if (/Mobi|Android/i.test(navigator.userAgent)) {
             // 📱 Mobile : Enregistrer d'abord dans Google Sheets puis appeler
             updateGoogleSheet("appel", function() {
                 setTimeout(() => {
-                    window.location.href = "tel:" + telephone;
+                    window.location.href = "tel:" + formattedTelephone;
                 }, 1000); // ⏳ Délai pour s'assurer que la mise à jour est bien faite
             });
         } else {
             // 🖥️ PC : Afficher une popup avec le numéro
-            alert("📞 Numéro du lead : " + telephone);
+            alert("📞 Numéro du lead : " + formattedTelephone);
             updateGoogleSheet("appel");
         }
     });
