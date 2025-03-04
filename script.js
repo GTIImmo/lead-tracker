@@ -42,7 +42,7 @@ document.addEventListener("DOMContentLoaded", function() {
     setTextContent("adresse", getParamValue("adresse"));
     setTextContent("codePostal", getParamValue("codePostal"));
     setTextContent("ville", getParamValue("ville"));
-    setTextContent("TypedeBien", getParamValue("TypedeBien"));
+    setTextContent("typedebien", getParamValue("typedebien"));
     setTextContent("surface", getParamValue("surface"));
     setTextContent("nbPieces", getParamValue("nbPieces"));
     setTextContent("prix", getParamValue("prix"));
