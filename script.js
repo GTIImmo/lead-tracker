@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", function() {
     const params = new URLSearchParams(window.location.search);
+    const telephone = params.get("telephone");
 
     function setInputValue(id, value) {
         const inputElement = document.getElementById(id);
@@ -8,71 +9,81 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }
 
-    // Pré-remplissage des champs avec les données du lead
+    // 📝 **Pré-remplissage des champs du lead avec les données de l'URL**
     setInputValue("nom", params.get("nom"));
     setInputValue("prenom", params.get("prenom"));
     setInputValue("email", params.get("email"));
-    setInputValue("telephone", params.get("telephone"));
+    setInputValue("telephone", telephone);
     setInputValue("adresse", params.get("adresse"));
     setInputValue("codePostal", params.get("codePostal"));
     setInputValue("ville", params.get("ville"));
     setInputValue("typeBien", params.get("typeBien"));
     setInputValue("surface", params.get("surface"));
+    setInputValue("nbPieces", params.get("nbPieces"));
     setInputValue("prix", params.get("prix"));
     setInputValue("dateReception", params.get("dateReception"));
+    setInputValue("googleStreetView", params.get("googleStreetView"));
+    setInputValue("validation", params.get("validation"));
+    setInputValue("idEmail", params.get("idEmail"));
+    setInputValue("agenceEnCharge", params.get("agenceEnCharge"));
+    setInputValue("agenceAdresse", params.get("agenceAdresse"));
+    setInputValue("agenceTelephone", params.get("agenceTelephone"));
+    setInputValue("negociateurAffecte", params.get("negociateurAffecte"));
+    setInputValue("telephoneCommercial", params.get("telephoneCommercial"));
     setInputValue("mailCommercial", params.get("mailCommercial"));
+    setInputValue("brevo", params.get("brevo"));
+    setInputValue("statutRDV", params.get("statutRDV"));
+    setInputValue("rdv", params.get("rdv"));
+    setInputValue("notification", params.get("notification"));
 
+    // 📍 **Lien Google Maps**
     const googleMapsLink = document.getElementById("googleMaps");
-    if (googleMapsLink && params.get("googleMaps")) {
-        googleMapsLink.href = params.get("googleMaps");
+    if (googleMapsLink && params.get("googleStreetView")) {
+        googleMapsLink.href = params.get("googleStreetView");
     }
 
-    // Fonction pour envoyer les actions vers Google Sheets via Google Apps Script
-    function updateGoogleSheet(action) {
-        if (!confirm("Êtes-vous sûr de vouloir effectuer cette action ?")) return;
-
-        fetch(`https://script.google.com/macros/s/AKfycbx8jhzit3sZ1paGd6XsYCasKn_629u258n9fO5PNP6FmjXfFC6WvUGuvT_2RRQZ93IVxA/exec?action=${action}&row=${params.get("row")}`)
-            .then(() => alert("✅ Action enregistrée avec succès !"))
-            .catch(() => alert("❌ Erreur lors de l'enregistrement"));
-    }
-
-    // Gestion du bouton "C'est noté"
-    document.getElementById("priseChargeBtn")?.addEventListener("click", () => updateGoogleSheet("confirm"));
-
-    // Gestion du bouton "Modifier"
-    document.getElementById("modifierBtn")?.addEventListener("click", () => {
-        let newData = new URLSearchParams();
-        document.querySelectorAll("input").forEach(input => {
-            newData.append(input.id, input.value);
-        });
-
-        fetch(`https://script.google.com/macros/s/AKfycbx8jhzit3sZ1paGd6XsYCasKn_629u258n9fO5PNP6FmjXfFC6WvUGuvT_2RRQZ93IVxA/exec?action=update&row=${params.get("row")}&` + newData.toString())
-            .then(() => alert("✅ Modifications enregistrées avec succès !"))
-            .catch(() => alert("❌ Erreur lors de la mise à jour"));
-    });
-
-    // Gestion du bouton "Rendez-vous"
-    document.getElementById("rendezVousBtn")?.addEventListener("click", () => updateGoogleSheet("rendezvous"));
-
-    // Gestion du bouton "📞 Appeler" (Mobile & PC)
-    const telephone = params.get("telephone");
+    // 📞 **Gérer l'affichage du bouton "Appeler"**
     if (telephone) {
         document.getElementById("appelerBtn").style.display = "block";
     } else {
         document.getElementById("appelerBtn").style.display = "none";
     }
 
-    document.getElementById("appelerBtn")?.addEventListener("click", function() {
-    if (/Mobi|Android/i.test(navigator.userAgent)) {
-        // 📱 Sur mobile : Enregistrer d'abord dans Google Sheets puis appeler
-        updateGoogleSheet("appel", function() {
-            setTimeout(() => {
-                window.location.href = "tel:" + telephone;
-            }, 1000); // ⏳ Petit délai pour laisser Google Sheets s'enregistrer
-        });
-    } else {
-        // 🖥️ Sur PC : Afficher le numéro et enregistrer l'appel
-        alert("📞 Numéro du lead : " + telephone);
-        updateGoogleSheet("appel");
+    // 🛠️ **Fonction pour mettre à jour Google Sheets**
+    function updateGoogleSheet(action, callback = null) {
+        if (!confirm("Êtes-vous sûr de vouloir effectuer cette action ?")) return;
+
+        let url = `https://script.google.com/macros/s/AKfycbx8jhzit3sZ1paGd6XsYCasKn_629u258n9fO5PNP6FmjXfFC6WvUGuvT_2RRQZ93IVxA/exec?action=${action}&row=${params.get("row")}`;
+        console.log("📡 URL envoyée : " + url);
+
+        fetch(url)
+            .then(response => response.text())
+            .then(result => {
+                console.log("✅ Réponse du serveur : " + result);
+                alert(result);
+                if (callback) callback(); // Exécute la suite après mise à jour (ex: appel mobile)
+            })
+            .catch(error => console.error("❌ Erreur : " + error));
     }
+
+    // 📞 **Bouton "Appeler" (différent sur PC et mobile)**
+    document.getElementById("appelerBtn")?.addEventListener("click", function() {
+        if (/Mobi|Android/i.test(navigator.userAgent)) {
+            // 📱 Mobile : Enregistrer d'abord dans Google Sheets puis appeler
+            updateGoogleSheet("appel", function() {
+                setTimeout(() => {
+                    window.location.href = "tel:" + telephone;
+                }, 1000); // ⏳ Petit délai pour laisser Google Sheets s'enregistrer
+            });
+        } else {
+            // 🖥️ PC : Afficher une popup avec le numéro
+            alert("📞 Numéro du lead : " + telephone);
+            updateGoogleSheet("appel");
+        }
+    });
+
+    // ✅ **Boutons d'action sur le lead**
+    document.getElementById("priseChargeBtn")?.addEventListener("click", () => updateGoogleSheet("confirm"));
+    document.getElementById("modifierBtn")?.addEventListener("click", () => updateGoogleSheet("update"));
+    document.getElementById("rendezVousBtn")?.addEventListener("click", () => updateGoogleSheet("rendezvous"));
 });
