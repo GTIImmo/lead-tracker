@@ -1,70 +1,149 @@
+/* 🎨 Global - Définition de la police et du fond */
 body {
-    font-family: Arial, sans-serif;
-    background-color: #2D2D2D; /* Fond anthracite */
-    color: #FFF;
-    text-align: center;
-    padding: 20px;
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f4; /* 🔹 Fond gris clair */
+    color: #333; /* 🔸 Texte en gris foncé */
+    margin: 0;
+    padding: 0;
 }
 
-h1#Détails du Lead {
-    font-size: 18px; /* 🔹 Réduit la taille de la police */
-    color: #ff9800; /* 🔸 Change la couleur (remplace par la couleur souhaitée) */
-    font-weight: bold; /* Optionnel : garde un bon contraste */
-    text-transform: uppercase; /* Optionnel : met en majuscules */
-}
+/* 📌 Conteneur principal */
 .container {
-    max-width: 600px;
-    margin: auto;
-    background: #3A3A3A;
+    max-width: 800px;
+    margin: 40px auto;
     padding: 20px;
+    background-color: white;
     border-radius: 8px;
-    box-shadow: 0px 4px 8px rgba(255, 255, 255, 0.1);
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* 🔥 Ombre douce */
 }
 
-header {
-    background-color: #1C1C1C;
-    padding: 10px;
+/* 🎯 Bandeau du haut avec le logo */
+.header {
+    background-color: #222; /* 🔹 Fond anthracite */
+    padding: 20px;
+    text-align: center;
+    border-radius: 8px 8px 0 0;
 }
 
 .logo {
-    max-width: 180px;
+    max-width: 200px;
+    height: auto;
 }
 
-h1, h2 {
-    color: #F77F00;
-}
-
-label {
-    display: block;
-    margin: 10px 0 5px;
+/* 🏡 Titre principal "Détail du Lead" */
+h1#leadTitle {
+    font-size: 24px; /* ✨ Taille plus petite */
+    color: #ff9800; /* 🟠 Couleur principale GTI */
     font-weight: bold;
-}
-
-input {
-    width: 100%;
-    padding: 8px;
-    border-radius: 5px;
-    border: none;
-    font-size: 16px;
-}
-
-.action-buttons {
+    text-align: center;
+    text-transform: uppercase;
     margin-top: 20px;
 }
 
-.btn {
+/* 📝 Style des labels */
+label {
+    font-weight: bold;
+    color: #555;
     display: block;
+    margin-top: 10px;
+}
+
+/* 📥 Champs de formulaire */
+input[type="text"], input[type="email"] {
     width: 100%;
-    margin: 10px 0;
-    padding: 12px;
+    padding: 8px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+/* 🎯 Boutons */
+.btn {
+    display: inline-block;
+    padding: 12px 18px;
+    margin-top: 15px;
+    border: none;
     border-radius: 5px;
     text-decoration: none;
     font-size: 16px;
-    color: white;
+    font-weight: bold;
+    text-align: center;
     cursor: pointer;
-    border: none;
+    transition: all 0.3s ease-in-out;
 }
 
-.btn-primary { background-color: #F77F00; }
-.btn-secondary { background-color: #27AE60; }
-.btn-info { background-color: #007BFF; }
+/* ✅ Bouton "C'est noté" */
+.btn-secondary {
+    background-color: #ff9800; /* 🟠 Orange GTI */
+    color: white;
+}
+
+.btn-secondary:hover {
+    background-color: #e68900; /* 🟠 Orange foncé */
+}
+
+/* 📅 Bouton "Prendre un RDV" */
+.btn-primary {
+    background-color: #4CAF50; /* 🟢 Vert GTI */
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #388E3C; /* 🟢 Vert foncé */
+}
+
+/* 🛠️ Bouton "Modifier" */
+.btn-info {
+    background-color: #2196F3; /* 🔵 Bleu clair */
+    color: white;
+}
+
+.btn-info:hover {
+    background-color: #0b7dda; /* 🔵 Bleu foncé */
+}
+
+/* 📞 Bouton "Appeler" */
+.btn-warning {
+    background-color: #ff5722; /* 🔥 Rouge GTI */
+    color: white;
+}
+
+.btn-warning:hover {
+    background-color: #e64a19; /* 🔥 Rouge foncé */
+}
+
+/* 📍 Lien Google Maps */
+a#googleMaps {
+    display: inline-block;
+    color: #E63946; /* 🔴 Rouge GTI */
+    text-decoration: none;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+a#googleMaps:hover {
+    text-decoration: underline;
+}
+
+/* 📌 Style des sections */
+.section {
+    margin-top: 20px;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #fafafa;
+    border-left: 5px solid #ff9800;
+}
+
+/* 📱 Version responsive (mobile) */
+@media screen and (max-width: 600px) {
+    .container {
+        width: 90%;
+        padding: 15px;
+    }
+    
+    .btn {
+        width: 100%; /* 🔥 Boutons en largeur complète sur mobile */
+        display: block;
+    }
+}
