@@ -1,156 +1,75 @@
-/* ✅ Réinitialisation du style pour une meilleure cohérence */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Arial', sans-serif;
-}
-
-/* 🌟 Mise en page générale du site */
-body {
-    background-color: #f9f9f9; /* Fond clair */
-    color: #333; /* Texte sombre */
+/* 🌟 Fond anthracite derrière le logo */
+header {
+    background-color: #1E1E1E;
     padding: 20px;
-}
-
-/* 📌 Conteneur principal */
-.container {
-    max-width: 800px;
-    margin: auto;
-    background: #fff; /* Fond blanc pour la fiche lead */
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-/* 🏠 Logo avec fond anthracite pour qu'il ressorte bien */
-.logo-container {
     text-align: center;
-    background-color: #333; /* Fond anthracite */
-    padding: 15px;
-    border-radius: 8px;
 }
 
+/* 📌 Logo bien visible */
 .logo {
-    width: 180px;
-    display: block;
-    margin: auto;
+    max-width: 200px;
 }
 
-/* 📍 Titre "Détail du Lead" */
-h1#leadTitle {
-    font-size: 22px;
-    color: #ff9800; /* Orange GTI Immobilier */
-    font-weight: bold;
+/* 🌿 Conteneur principal avec fond clair */
+.container {
+    background-color: #F5F5F5; /* Fond clair */
+    padding: 30px;
+    max-width: 600px;
+    margin: 20px auto;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
     text-align: center;
-    margin-top: 20px;
-    text-transform: uppercase;
 }
 
-/* 🏡 Informations du Lead */
+/* 📝 Zone d'affichage des infos */
 .lead-info {
-    margin: 20px 0;
-    padding: 15px;
-    background: #f0f0f0; /* Léger fond gris */
-    border-radius: 8px;
+    font-size: 18px;
+    color: #333;
+    line-height: 1.5;
+    padding: 10px;
+    text-align: left;
 }
 
-.lead-info p {
-    font-size: 16px;
-    margin: 8px 0;
+/* 📞 Boutons */
+.buttons {
+    margin-top: 20px;
 }
 
-/* 🏷️ Ajout d'icônes pour les infos du lead */
-.lead-info p::before {
-    content: "📌 ";
-    font-weight: bold;
-}
-
-/* 📞 Style spécifique pour le téléphone */
-.lead-info p.telephone::before {
-    content: "📞 ";
-}
-
-/* 🏠 Style spécifique pour l'adresse */
-.lead-info p.adresse::before {
-    content: "🏡 ";
-}
-
-/* 📍 Style pour Google Maps */
-.lead-info p.google-maps::before {
-    content: "🗺️ ";
-}
-
-/* ✅ Boutons d’action */
-button {
+.btn {
     display: block;
     width: 100%;
-    padding: 12px;
+    padding: 15px;
+    margin: 5px 0;
     font-size: 16px;
-    font-weight: bold;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    margin: 10px 0;
-    transition: 0.3s;
+    text-align: center;
 }
 
-/* 📞 Bouton "Appeler" */
-.btn-call {
-    background-color: #28a745; /* Vert */
+.btn-secondary {
+    background-color: #E63946;
     color: white;
 }
 
-.btn-call:hover {
-    background-color: #218838;
-}
-
-/* 🛠️ Bouton "Modifier" */
-.btn-modify {
-    background-color: #007bff; /* Bleu */
+.btn-info {
+    background-color: #457B9D;
     color: white;
 }
 
-.btn-modify:hover {
-    background-color: #0056b3;
-}
-
-/* 📅 Bouton "Rendez-vous" */
-.btn-rdv {
-    background-color: #ff9800; /* Orange */
+.btn-primary {
+    background-color: #1D3557;
     color: white;
 }
 
-.btn-rdv:hover {
-    background-color: #e68900;
-}
-
-/* ✅ Bouton "C'est noté" */
-.btn-confirm {
-    background-color: #6c757d; /* Gris foncé */
+.btn-warning {
+    background-color: #F77F00;
     color: white;
 }
 
-.btn-confirm:hover {
-    background-color: #5a6268;
-}
-
-/* 🖥️ Responsive Design */
-@media (max-width: 768px) {
-    .container {
-        padding: 15px;
-    }
-    
-    h1#leadTitle {
-        font-size: 18px;
-    }
-
-    .lead-info p {
-        font-size: 14px;
-    }
-
-    button {
-        font-size: 14px;
-        padding: 10px;
-    }
+/* 🔍 Lien Google Maps */
+#googleMaps {
+    color: #E63946;
+    font-weight: bold;
+    text-decoration: none;
 }
