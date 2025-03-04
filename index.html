@@ -8,28 +8,32 @@
 </head>
 <body>
 
-    <!-- 🌟 Logo -->
+    <!-- 🌟 Logo avec fond anthracite -->
     <header>
         <div class="header">
             <img src="https://www.gti-immobilier.fr/application/files/5617/3617/2343/GTI-Logos-Grisblanc.png" alt="GTI Immobilier" class="logo">
         </div>
     </header>
 
+    <!-- 📋 Conteneur principal -->
     <div class="container">
         <h1>🔎 Détails du Lead</h1>
 
+        <!-- 📌 Zone d'affichage des informations en 2 colonnes -->
         <div class="lead-info">
-            <p><strong>Nom :</strong> <span id="nom"></span></p>
-            <p><strong>Prénom :</strong> <span id="prenom"></span></p>
-            <p><strong>Email :</strong> <span id="email"></span> <input type="email" id="emailInput" class="editable-field"></p>
-            <p><strong>Téléphone :</strong> <span id="telephone"></span> <input type="text" id="telephoneInput" class="editable-field"></p>
-            <p><strong>Adresse :</strong> <span id="adresse"></span> <input type="text" id="adresseInput" class="editable-field"></p>
-            <p><strong>Code Postal :</strong> <span id="codePostal"></span> <input type="text" id="codePostalInput" class="editable-field"></p>
-            <p><strong>Ville :</strong> <span id="ville"></span> <input type="text" id="villeInput" class="editable-field"></p>
-            <p><strong>Type de bien :</strong> <span id="typeBien"></span> <input type="text" id="typeBienInput" class="editable-field"></p>
-            <p><strong>Surface :</strong> <span id="surface"></span> <input type="number" id="surfaceInput" class="editable-field"></p>
-            <p><strong>Nombre de pièces :</strong> <span id="nbPieces"></span> <input type="number" id="nbPiecesInput" class="editable-field"></p>
-            <p><strong>Prix :</strong> <span id="prix"></span> <input type="number" id="prixInput" class="editable-field"></p>
+            <p id="nom"></p>
+            <p id="prenom"></p>
+            <p id="email"></p>
+            <p id="telephone"></p>
+            <p id="adresse"></p>
+            <p id="codePostal"></p>
+            <p id="ville"></p>
+            <p id="typeBien"></p>
+            <p id="surface"></p>
+            <p id="nbPieces"></p>
+            <p id="prix"></p>
+            <p id="statutRDV"></p>
+            <p id="rdv"></p>
         </div>
 
         <!-- 📞 Boutons d'actions -->
@@ -38,7 +42,7 @@
             <button id="appelerBtn" class="btn btn-warning">📞 Appeler</button>
             <button id="modifierBtn" class="btn btn-info">📝 Modifier</button>
             <button id="rendezVousBtn" class="btn btn-primary">📅 Prendre un rendez-vous</button>
-            <button id="enregistrerBtn" class="btn btn-success">💾 Enregistrer</button> <!-- Bouton pour enregistrer -->
+            <button id="enregistrerModifications" class="btn btn-success" style="display: none;">💾 Enregistrer</button>
         </div>
     </div>
 
