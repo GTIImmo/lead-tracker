@@ -6,6 +6,12 @@ body {
     padding: 20px;
 }
 
+h1#Detaildulead {
+    font-size: 22px; /* 🔹 Réduit la taille de la police */
+    color: #ff9800; /* 🔸 Change la couleur (remplace par la couleur souhaitée) */
+    font-weight: bold; /* Optionnel : garde un bon contraste */
+    text-transform: uppercase; /* Optionnel : met en majuscules */
+}
 .container {
     max-width: 600px;
     margin: auto;
