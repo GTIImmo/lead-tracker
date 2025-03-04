@@ -20,25 +20,33 @@ body {
 
 /* 📋 Conteneur principal */
 .container {
-    max-width: 600px;
+    max-width: 700px;
     background-color: white;
     margin: 20px auto;
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-    text-align: center;
 }
 
 /* 📋 Titre principal */
 h1 {
     font-size: 22px;
     color: #F77F00;
+    text-align: center;
 }
 
-/* 📋 Infos du lead avec icônes */
+/* 📋 Infos du lead en 2 colonnes */
+.lead-info {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    padding: 10px 0;
+}
+
+/* 📋 Chaque info avec icône */
 .lead-info p {
     font-size: 16px;
-    padding: 8px 0;
+    padding: 8px;
     border-bottom: 1px solid #ddd;
     text-align: left;
 }
@@ -49,19 +57,27 @@ h1 {
     margin-right: 10px;
 }
 
-#nom::before { content: "👤 Nom : "; font-weight: bold; }
-#prenom::before { content: "🆔 Prénom : "; font-weight: bold; }
-#email::before { content: "📧 Email : "; font-weight: bold; }
-#telephone::before { content: "📞 Téléphone : "; font-weight: bold; }
-#adresse::before { content: "📍 Adresse : "; font-weight: bold; }
-#codePostal::before { content: "📮 Code Postal : "; font-weight: bold; }
-#ville::before { content: "🏙️ Ville : "; font-weight: bold; }
-#typeBien::before { content: "🏡 Type de bien : "; font-weight: bold; }
-#surface::before { content: "📏 Surface : "; font-weight: bold; }
-#nbPieces::before { content: "🚪 Nombre de pièces : "; font-weight: bold; }
-#prix::before { content: "💰 Prix estimé : "; font-weight: bold; }
-#statutRDV::before { content: "📆 Statut RDV : "; font-weight: bold; }
-#rdv::before { content: "📅 RDV : "; font-weight: bold; }
+#nom::before { content: "👤 "; font-weight: bold; }
+#prenom::before { content: "🆔 "; font-weight: bold; }
+#email::before { content: "📧 "; font-weight: bold; }
+#telephone::before { content: "📞 "; font-weight: bold; }
+#adresse::before { content: "📍 "; font-weight: bold; }
+#codePostal::before { content: "📮 "; font-weight: bold; }
+#ville::before { content: "🏙️ "; font-weight: bold; }
+#typeBien::before { content: "🏡 "; font-weight: bold; }
+#surface::before { content: "📏 "; font-weight: bold; }
+#nbPieces::before { content: "🚪 "; font-weight: bold; }
+#prix::before { content: "💰 "; font-weight: bold; }
+#idEmail::before { content: "🆔 "; font-weight: bold; }
+#agenceEnCharge::before { content: "🏢 "; font-weight: bold; }
+#agenceAdresse::before { content: "📍 "; font-weight: bold; }
+#agenceTelephone::before { content: "☎️ "; font-weight: bold; }
+#negociateurAffecte::before { content: "👨‍💼 "; font-weight: bold; }
+#telephoneCommercial::before { content: "📞 "; font-weight: bold; }
+#brevo::before { content: "📬 "; font-weight: bold; }
+#statutRDV::before { content: "📆 "; font-weight: bold; }
+#rdv::before { content: "📅 "; font-weight: bold; }
+#notification::before { content: "🔔 "; font-weight: bold; }
 
 /* 📍 Lien Google Maps */
 #googleMaps {
@@ -75,8 +91,9 @@ h1 {
 /* 🎨 Boutons */
 .buttons {
     display: flex;
-    flex-direction: column;
+    flex-wrap: wrap;
     gap: 10px;
+    justify-content: center;
     margin-top: 20px;
 }
 
@@ -85,29 +102,29 @@ h1 {
     padding: 12px;
     border: none;
     cursor: pointer;
-    width: 100%;
+    width: 48%;
     border-radius: 5px;
     transition: background 0.3s ease-in-out;
 }
 
-/* ✅ Bouton "C'est noté" */
+/* ✅ Bouton "C'est noté" en vert flash */
 .btn-secondary {
-    background-color: #2a9d8f;
+    background-color: #00C853;
     color: white;
 }
 
 .btn-secondary:hover {
-    background-color: #21867a;
+    background-color: #009624;
 }
 
-/* 📞 Bouton "Appeler" en rouge */
+/* 📞 Bouton "Appeler" en rouge vif */
 .btn-warning {
-    background-color: #E63946;
+    background-color: #D90429;
     color: white;
 }
 
 .btn-warning:hover {
-    background-color: #C32F39;
+    background-color: #B10221;
 }
 
 /* 📝 Bouton "Modifier" */
@@ -128,4 +145,15 @@ h1 {
 
 .btn-primary:hover {
     background-color: #D96400;
+}
+
+/* 📱 Responsive */
+@media screen and (max-width: 600px) {
+    .lead-info {
+        grid-template-columns: 1fr; /* 1 seule colonne sur mobile */
+    }
+
+    .btn {
+        width: 100%;
+    }
 }
