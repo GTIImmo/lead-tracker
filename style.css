@@ -1,149 +1,118 @@
-/* 🎨 Global - Définition de la police et du fond */
-body {
-    font-family: 'Arial', sans-serif;
-    background-color: #f4f4f4; /* 🔹 Fond gris clair */
-    color: #333; /* 🔸 Texte en gris foncé */
+/* 🌟 RESET CSS - Suppression des marges par défaut */
+* {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+}
+
+/* 🌤️ Fond général du site */
+body {
+    background-color: #f8f9fa; /* 🎨 Fond clair */
+    color: #333; /* Texte lisible */
+    padding: 20px;
 }
 
 /* 📌 Conteneur principal */
 .container {
     max-width: 800px;
-    margin: 40px auto;
+    margin: auto;
+    background: #ffffff; /* Fond blanc pour le contenu */
     padding: 20px;
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* 🔥 Ombre douce */
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-/* 🎯 Bandeau du haut avec le logo */
+/* 🎯 Entête avec le logo */
 .header {
-    background-color: #222; /* 🔹 Fond anthracite */
-    padding: 20px;
+    background-color: #333; /* Fond anthracite pour bien faire ressortir le logo */
+    padding: 15px;
     text-align: center;
-    border-radius: 8px 8px 0 0;
+    border-radius: 10px 10px 0 0;
 }
 
+/* 🏡 Logo GTI */
 .logo {
-    max-width: 200px;
-    height: auto;
+    max-width: 200px; /* Ajustable */
+    background-color: #333; /* Fond anthracite */
+    padding: 10px;
+    border-radius: 8px;
 }
 
-/* 🏡 Titre principal "Détail du Lead" */
+/* 📝 Titre principal */
 h1#leadTitle {
-    font-size: 24px; /* ✨ Taille plus petite */
-    color: #ff9800; /* 🟠 Couleur principale GTI */
-    font-weight: bold;
+    font-size: 22px;
+    color: #007bff; /* Bleu professionnel */
     text-align: center;
-    text-transform: uppercase;
-    margin-top: 20px;
+    margin: 15px 0;
 }
 
-/* 📝 Style des labels */
-label {
-    font-weight: bold;
-    color: #555;
-    display: block;
-    margin-top: 10px;
+/* 📋 Infos du lead */
+.lead-info {
+    background-color: #ffffff;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 15px;
 }
 
-/* 📥 Champs de formulaire */
-input[type="text"], input[type="email"] {
-    width: 100%;
+/* 📌 Style des champs de données */
+.lead-info p {
+    font-size: 16px;
     padding: 8px;
-    margin-top: 5px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 14px;
+    border-bottom: 1px solid #ddd;
 }
 
-/* 🎯 Boutons */
+/* 🔘 Boutons d’action */
 .btn {
     display: inline-block;
-    padding: 12px 18px;
-    margin-top: 15px;
-    border: none;
-    border-radius: 5px;
-    text-decoration: none;
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
     font-size: 16px;
     font-weight: bold;
+    border-radius: 5px;
     text-align: center;
+    text-decoration: none;
     cursor: pointer;
     transition: all 0.3s ease-in-out;
 }
 
-/* ✅ Bouton "C'est noté" */
-.btn-secondary {
-    background-color: #ff9800; /* 🟠 Orange GTI */
-    color: white;
-}
+/* 🎨 Couleurs des boutons */
+.btn-primary { background: #007bff; color: white; border: none; }
+.btn-primary:hover { background: #0056b3; }
 
-.btn-secondary:hover {
-    background-color: #e68900; /* 🟠 Orange foncé */
-}
+.btn-warning { background: #ff9800; color: white; border: none; }
+.btn-warning:hover { background: #e68900; }
 
-/* 📅 Bouton "Prendre un RDV" */
-.btn-primary {
-    background-color: #4CAF50; /* 🟢 Vert GTI */
-    color: white;
-}
+.btn-secondary { background: #28a745; color: white; border: none; }
+.btn-secondary:hover { background: #1e7e34; }
 
-.btn-primary:hover {
-    background-color: #388E3C; /* 🟢 Vert foncé */
-}
-
-/* 🛠️ Bouton "Modifier" */
-.btn-info {
-    background-color: #2196F3; /* 🔵 Bleu clair */
-    color: white;
-}
-
-.btn-info:hover {
-    background-color: #0b7dda; /* 🔵 Bleu foncé */
-}
+.btn-info { background: #17a2b8; color: white; border: none; }
+.btn-info:hover { background: #117a8b; }
 
 /* 📞 Bouton "Appeler" */
-.btn-warning {
-    background-color: #ff5722; /* 🔥 Rouge GTI */
+.btn-call {
+    background: #dc3545;
     color: white;
 }
-
-.btn-warning:hover {
-    background-color: #e64a19; /* 🔥 Rouge foncé */
+.btn-call:hover {
+    background: #c82333;
 }
 
-/* 📍 Lien Google Maps */
-a#googleMaps {
-    display: inline-block;
-    color: #E63946; /* 🔴 Rouge GTI */
-    text-decoration: none;
-    font-weight: bold;
-    margin-top: 10px;
-}
-
-a#googleMaps:hover {
-    text-decoration: underline;
-}
-
-/* 📌 Style des sections */
-.section {
-    margin-top: 20px;
-    padding: 10px;
-    border-radius: 5px;
-    background-color: #fafafa;
-    border-left: 5px solid #ff9800;
-}
-
-/* 📱 Version responsive (mobile) */
+/* 📌 Ajustement mobile */
 @media screen and (max-width: 600px) {
     .container {
-        width: 90%;
+        width: 100%;
         padding: 15px;
     }
-    
+
+    h1#leadTitle {
+        font-size: 20px;
+    }
+
     .btn {
-        width: 100%; /* 🔥 Boutons en largeur complète sur mobile */
-        display: block;
+        font-size: 14px;
+        padding: 10px;
     }
 }
