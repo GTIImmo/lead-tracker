@@ -59,7 +59,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
         if (!confirm("Voulez-vous enregistrer ces modifications ?")) return;
 
-        let url = `https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec?action=update&row=${params.get("row")}`;
+        let url = `https://script.google.com/macros/s/AKfycbx8jhzit3sZ1paGd6XsYCasKn_629u258n9fO5PNP6FmjXfFC6WvUGuvT_2RRQZ93IVxA/exec?action=update&row=${params.get("row")}`;
 
         Object.entries(modifiedFields).forEach(([key, value]) => {
             url += `&${key}=${encodeURIComponent(value)}`;
