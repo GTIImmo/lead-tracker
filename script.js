@@ -1,10 +1,9 @@
 document.addEventListener("DOMContentLoaded", function() {
     const params = new URLSearchParams(window.location.search);
-    let telephone = params.get("telephone");
 
     // 🛠️ **Fonction pour ajouter un "0" devant si le numéro est tronqué**
     function formatTelephone(num) {
-        if (!num) return ""; // Si vide, retourne une chaîne vide
+        if (!num) return "";
         num = num.replace(/\s+/g, ''); // Supprime les espaces
         if (num.length === 9 && /^[1-9][0-9]+$/.test(num)) {
             return "0" + num; // Ajoute un "0" devant si le numéro est à 9 chiffres
@@ -12,50 +11,57 @@ document.addEventListener("DOMContentLoaded", function() {
         return num;
     }
 
-    // 🚀 **Correction : Reformater le numéro AVANT de l'utiliser**
-    telephone = formatTelephone(telephone);
+    // 🛠️ **Correction : Décodage des clés de l'URL pour éviter les problèmes d'espaces et caractères spéciaux**
+    function getParamValue(key) {
+        for (let [paramKey, paramValue] of params.entries()) {
+            if (decodeURIComponent(paramKey).toLowerCase().trim() === key.toLowerCase().trim()) {
+                return decodeURIComponent(paramValue);
+            }
+        }
+        return "";
+    }
 
-    function setInputValue(id, value) {
-        const inputElement = document.getElementById(id);
-        if (inputElement) {
-            inputElement.value = value || "";
+    function setTextContent(id, value) {
+        const element = document.getElementById(id);
+        if (element) {
+            element.textContent = value || "";
         }
     }
 
-    // 📝 **Pré-remplissage des champs du lead avec les données de l'URL**
-    setInputValue("nom", params.get("nom"));
-    setInputValue("prenom", params.get("prenom"));
-    setInputValue("email", params.get("email"));
-    setInputValue("telephone", telephone); // 🔥 Numéro bien formaté ici !
-    setInputValue("adresse", params.get("adresse"));
-    setInputValue("codePostal", params.get("codePostal"));
-    setInputValue("ville", params.get("ville"));
-    setInputValue("typeBien", params.get("typeBien"));
-    setInputValue("surface", params.get("surface"));
-    setInputValue("nbPieces", params.get("nbPieces"));
-    setInputValue("prix", params.get("prix"));
-    setInputValue("dateReception", params.get("dateReception"));
-    setInputValue("googleStreetView", params.get("googleStreetView"));
-    setInputValue("validation", params.get("validation"));
-    setInputValue("idEmail", params.get("idEmail"));
-    setInputValue("agenceEnCharge", params.get("agenceEnCharge"));
-    setInputValue("agenceAdresse", params.get("agenceAdresse"));
-    setInputValue("agenceTelephone", params.get("agenceTelephone"));
-    setInputValue("negociateurAffecte", params.get("negociateurAffecte"));
-    setInputValue("telephoneCommercial", params.get("telephoneCommercial"));
-    setInputValue("mailCommercial", params.get("mailCommercial"));
-    setInputValue("brevo", params.get("brevo"));
-    setInputValue("statutRDV", params.get("statutRDV"));
-    setInputValue("rdv", params.get("rdv"));
-    setInputValue("notification", params.get("notification"));
+    // 🚀 **Pré-remplissage des champs avec les données de l'URL**
+    setTextContent("nom", getParamValue("nom"));
+    setTextContent("prenom", getParamValue("prenom"));
+    setTextContent("email", getParamValue("email"));
+    setTextContent("telephone", formatTelephone(getParamValue("telephone")));
+    setTextContent("adresse", getParamValue("adresse"));
+    setTextContent("codePostal", getParamValue("codePostal"));
+    setTextContent("ville", getParamValue("ville"));
+    setTextContent("typeBien", getParamValue("typeBien"));
+    setTextContent("surface", getParamValue("surface"));
+    setTextContent("nbPieces", getParamValue("nbPieces"));
+    setTextContent("prix", getParamValue("Prix de vente estimé"));
+    setTextContent("googleMaps", getParamValue("googleMaps"));
+    setTextContent("mailCommercial", getParamValue("mailCommercial"));
+    setTextContent("idEmail", getParamValue("idEmail"));
+    setTextContent("agenceEnCharge", getParamValue("agenceEnCharge"));
+    setTextContent("agenceAdresse", getParamValue("agenceAdresse"));
+    setTextContent("agenceTelephone", getParamValue("agenceTelephone"));
+    setTextContent("negociateurAffecte", getParamValue("negociateurAffecte"));
+    setTextContent("telephoneCommercial", getParamValue("telephoneCommercial"));
+    setTextContent("brevo", getParamValue("brevo"));
+    setTextContent("statutRDV", getParamValue("statutRDV"));
+    setTextContent("rdv", getParamValue("rdv"));
+    setTextContent("notification", getParamValue("notification"));
 
     // 📍 **Lien Google Maps**
     const googleMapsLink = document.getElementById("googleMaps");
-    if (googleMapsLink && params.get("googleStreetView")) {
-        googleMapsLink.href = params.get("googleStreetView");
+    if (googleMapsLink && getParamValue("googleMaps")) {
+        googleMapsLink.href = getParamValue("googleMaps");
+        googleMapsLink.textContent = "📍 Voir sur Google Maps";
     }
 
     // 📞 **Gérer l'affichage du bouton "Appeler"**
+    const telephone = formatTelephone(getParamValue("telephone"));
     if (telephone) {
         document.getElementById("appelerBtn").style.display = "block";
     } else {
@@ -66,7 +72,7 @@ document.addEventListener("DOMContentLoaded", function() {
     function updateGoogleSheet(action, callback = null) {
         if (!confirm("Êtes-vous sûr de vouloir effectuer cette action ?")) return;
 
-        let url = `https://script.google.com/macros/s/AKfycbx8jhzit3sZ1paGd6XsYCasKn_629u258n9fO5PNP6FmjXfFC6WvUGuvT_2RRQZ93IVxA/exec?action=${action}&row=${params.get("row")}`;
+        let url = `https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec?action=${action}&row=${params.get("row")}`;
         console.log("📡 URL envoyée : " + url);
 
         fetch(url)
@@ -81,18 +87,16 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // 📞 **Bouton "Appeler" (différent sur PC et mobile)**
     document.getElementById("appelerBtn")?.addEventListener("click", function() {
-        const formattedTelephone = formatTelephone(telephone);
-
         if (/Mobi|Android/i.test(navigator.userAgent)) {
             // 📱 Mobile : Enregistrer d'abord dans Google Sheets puis appeler
             updateGoogleSheet("appel", function() {
                 setTimeout(() => {
-                    window.location.href = "tel:" + formattedTelephone;
-                }, 1000); // ⏳ Délai pour s'assurer que la mise à jour est bien faite
+                    window.location.href = "tel:" + telephone;
+                }, 1000);
             });
         } else {
             // 🖥️ PC : Afficher une popup avec le numéro
-            alert("📞 Numéro du lead : " + formattedTelephone);
+            alert("📞 Numéro du lead : " + telephone);
             updateGoogleSheet("appel");
         }
     });
