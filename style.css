@@ -1,55 +1,91 @@
-body {
-    font-family: Arial, sans-serif;
-    background-color: #2D2D2D;
-    color: #FFF;
+/* 🌟 Réduction du titre et harmonisation des couleurs */
+h1 {
+    font-size: 22px; /* Réduction de la taille */
+    color: #E63946; /* Rouge GTI */
     text-align: center;
-    padding: 20px;
-}
-
-.container {
-    max-width: 600px;
-    margin: auto;
-    background: #3A3A3A;
-    padding: 20px;
-    border-radius: 8px;
-}
-
-header {
-    background-color: #1C1C1C;
-    padding: 10px;
-}
-
-.logo {
-    max-width: 180px;
-}
-
-h1, h2 {
-    color: #F77F00;
-}
-
-label {
-    display: block;
-    margin: 10px 0 5px;
     font-weight: bold;
+    margin-bottom: 20px;
 }
 
-input {
-    width: 100%;
-    padding: 8px;
-    border-radius: 5px;
+/* 🖥️ Fond anthracite avec logo visible */
+body {
+    background-color: #333333; /* Anthracite */
+    color: #FFFFFF; /* Texte blanc */
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
 }
 
+/* 🏠 Conteneur du contenu */
+.container {
+    width: 90%;
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #F5F5F5; /* Gris clair */
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* 🏆 Boutons stylisés */
 .btn {
-    width: 100%;
-    margin: 10px 0;
-    padding: 12px;
+    display: inline-block;
+    padding: 10px 20px;
+    margin: 10px 5px;
     border-radius: 5px;
     text-decoration: none;
-    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.btn-primary {
+    background-color: #E63946; /* Rouge GTI */
     color: white;
     border: none;
 }
 
-.btn-primary { background-color: #F77F00; }
-.btn-secondary { background-color: #27AE60; }
-.btn-info { background-color: #007BFF; }
+.btn-primary:hover {
+    background-color: #B02A37; /* Rouge foncé */
+}
+
+.btn-secondary {
+    background-color: #457B9D; /* Bleu GTI */
+    color: white;
+    border: none;
+}
+
+.btn-secondary:hover {
+    background-color: #2C5673;
+}
+
+.btn-warning {
+    background-color: #F77F00; /* Orange GTI */
+    color: white;
+    border: none;
+}
+
+.btn-warning:hover {
+    background-color: #C76A00;
+}
+
+/* 📍 Liens vers Google Maps */
+a {
+    color: #E63946; /* Rouge GTI */
+    text-decoration: none;
+    font-weight: bold;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* 🖼️ Logo GTI sur fond anthracite */
+.logo {
+    display: block;
+    margin: 0 auto;
+    max-width: 200px;
+    background-color: #333333; /* Fond anthracite */
+    padding: 10px;
+    border-radius: 10px;
+}
