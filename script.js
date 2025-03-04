@@ -1,8 +1,5 @@
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
     const params = new URLSearchParams(window.location.search);
-    const leadInfoDiv = document.getElementById("leadInfo");
-    const saveChangesBtn = document.getElementById("saveChangesBtn");
-    let modifiedFields = {}; // Stocker les champs modifiés
 
     function formatTelephone(num) {
         if (!num) return "";
@@ -13,80 +10,133 @@ document.addEventListener("DOMContentLoaded", function() {
         return num;
     }
 
-    function createLeadInfoField(label, key) {
-        let value = params.get(key) || "";
-        let container = document.createElement("p");
-
-        if (value === "") {
-            let input = document.createElement("input");
-            input.type = "text";
-            input.placeholder = `Entrez ${label.toLowerCase()}`;
-            input.dataset.key = key;
-            input.addEventListener("input", function () {
-                modifiedFields[key] = input.value;
-                saveChangesBtn.style.display = "block";
-            });
-            container.appendChild(input);
-        } else {
-            container.textContent = `📌 ${label}: ${value}`;
-        }
-
-        leadInfoDiv.appendChild(container);
+    function formatDate(dateString) {
+        if (!dateString) return "";
+        let dateObj = new Date(dateString);
+        if (isNaN(dateObj)) return dateString; // Si invalide, retourne la valeur brute
+        return dateObj.toLocaleDateString("fr-FR", { year: "numeric", month: "2-digit", day: "2-digit" }) +
+            " " + dateObj.toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" });
     }
 
-    // ✅ Liste des informations affichées/modifiables
-    const fields = [
-        { label: "Nom", key: "nom" },
-        { label: "Prénom", key: "prenom" },
-        { label: "Email", key: "email" },
-        { label: "Téléphone", key: "telephone" },
-        { label: "Adresse", key: "adresse" },
-        { label: "Code Postal", key: "codePostal" },
-        { label: "Ville", key: "ville" },
-        { label: "Type de bien", key: "typeBien" },
-        { label: "Surface", key: "surface" },
-        { label: "Nb de pièces", key: "nbPieces" },
-        { label: "Prix estimé", key: "prix" },
-        { label: "Statut RDV", key: "statutRDV" },
-        { label: "RDV", key: "rdv" }
-    ];
+    function getParamValue(key) {
+        return params.has(key) ? decodeURIComponent(params.get(key)) : "";
+    }
 
-    fields.forEach(field => createLeadInfoField(field.label, field.key));
+    function setTextContent(id, value, format = null) {
+        const element = document.getElementById(id);
+        if (element) {
+            element.textContent = format ? format(value) : value || "";
+        }
+    }
 
-    // ✅ Enregistrement des modifications
-    saveChangesBtn.addEventListener("click", function () {
-        if (Object.keys(modifiedFields).length === 0) return;
+    // 🚀 **Pré-remplissage des informations du lead**
+    const fields = ["nom", "prenom", "email", "telephone", "adresse", "codePostal", "ville", "typeBien", "surface", "nbPieces", "prix"];
+    let modifications = {};
+    let hasEmptyFields = false;
 
-        if (!confirm("Voulez-vous enregistrer ces modifications ?")) return;
+    fields.forEach(id => {
+        const element = document.getElementById(id);
+        const value = getParamValue(id);
+        
+        if (element) {
+            if (value.trim()) {
+                element.textContent = value;
+            } else {
+                hasEmptyFields = true;
+                // Création d'un champ modifiable
+                const input = document.createElement("input");
+                input.type = "text";
+                input.id = `edit-${id}`;
+                input.className = "form-control";
+                input.placeholder = `Modifier ${id}`;
+                element.appendChild(input);
 
-        let url = `https://script.google.com/macros/s/AKfycbx8jhzit3sZ1paGd6XsYCasKn_629u258n9fO5PNP6FmjXfFC6WvUGuvT_2RRQZ93IVxA/exec?action=update&row=${params.get("row")}`;
-
-        Object.entries(modifiedFields).forEach(([key, value]) => {
-            url += `&${key}=${encodeURIComponent(value)}`;
-        });
-
-        fetch(url)
-            .then(response => response.text())
-            .then(result => {
-                alert("✅ Modifications enregistrées !");
-                location.reload();
-            })
-            .catch(error => console.error("❌ Erreur :", error));
+                input.addEventListener("input", () => {
+                    modifications[id] = input.value;
+                    document.getElementById("enregistrerModifications").style.display = "block"; // Afficher le bouton Enregistrer
+                });
+            }
+        }
     });
 
-    // ✅ Boutons d’actions
-    document.getElementById("priseChargeBtn").addEventListener("click", () => updateGoogleSheet("confirm"));
-    document.getElementById("appelerBtn").addEventListener("click", () => updateGoogleSheet("appel"));
-    document.getElementById("rendezVousBtn").addEventListener("click", () => updateGoogleSheet("rendezvous"));
+    // 📍 **Lien Google Maps**
+    const googleMapsLink = document.getElementById("googleMaps");
+    if (googleMapsLink && getParamValue("googleMaps")) {
+        googleMapsLink.href = getParamValue("googleMaps");
+        googleMapsLink.textContent = "📍 Voir sur Google Maps";
+    }
 
-    function updateGoogleSheet(action) {
-        let url = `https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec?action=${action}&row=${params.get("row")}`;
+    // 📞 **Gérer l'affichage du bouton "Appeler"**
+    const telephone = formatTelephone(getParamValue("telephone"));
+    if (telephone) {
+        document.getElementById("appelerBtn").style.display = "block";
+    } else {
+        document.getElementById("appelerBtn").style.display = "none";
+    }
+
+    function updateGoogleSheet(action, callback = null) {
+        if (!confirm("Êtes-vous sûr de vouloir effectuer cette action ?")) return;
+
+        let url = `https://script.google.com/macros/s/AKfycbx8jhzit3sZ1paGd6XsYCasKn_629u258n9fO5PNP6FmjXfFC6WvUGuvT_2RRQZ93IVxA/exec?action=${action}&row=${params.get("row")}`;
+        console.log("📡 URL envoyée : " + url);
 
         fetch(url)
             .then(response => response.text())
             .then(result => {
+                console.log("✅ Réponse du serveur : " + result);
                 alert(result);
+                if (callback) callback();
             })
-            .catch(error => console.error("❌ Erreur :", error));
+            .catch(error => console.error("❌ Erreur : " + error));
     }
+
+    document.getElementById("appelerBtn")?.addEventListener("click", function () {
+        if (/Mobi|Android/i.test(navigator.userAgent)) {
+            updateGoogleSheet("appel", function () {
+                setTimeout(() => {
+                    window.location.href = "tel:" + telephone;
+                }, 1000);
+            });
+        } else {
+            alert("📞 Numéro du lead : " + telephone);
+            updateGoogleSheet("appel");
+        }
+    });
+
+    // 📥 **Bouton "Enregistrer" pour envoyer les modifications**
+    const saveButton = document.getElementById("enregistrerModifications");
+    if (saveButton) {
+        saveButton.addEventListener("click", function () {
+            if (Object.keys(modifications).length === 0) {
+                alert("Aucune modification détectée.");
+                return;
+            }
+
+            let url = `https://script.google.com/macros/s/AKfycbx8jhzit3sZ1paGd6XsYCasKn_629u258n9fO5PNP6FmjXfFC6WvUGuvT_2RRQZ93IVxA/exec?action=update&row=${params.get("row")}`;
+
+            Object.keys(modifications).forEach(key => {
+                url += `&${encodeURIComponent(key)}=${encodeURIComponent(modifications[key])}`;
+            });
+
+            console.log("📡 Envoi des modifications : " + url);
+
+            fetch(url)
+                .then(response => response.text())
+                .then(result => {
+                    console.log("✅ Réponse serveur : " + result);
+                    alert(result);
+                    location.reload(); // Recharge la page pour voir les mises à jour
+                })
+                .catch(error => console.error("❌ Erreur : " + error));
+        });
+
+        if (hasEmptyFields) {
+            saveButton.style.display = "block"; // Affiche le bouton s'il y a des champs à modifier
+        }
+    }
+
+    // 🎯 **Gestion des autres actions**
+    document.getElementById("priseChargeBtn")?.addEventListener("click", () => updateGoogleSheet("confirm"));
+    document.getElementById("modifierBtn")?.addEventListener("click", () => updateGoogleSheet("update"));
+    document.getElementById("rendezVousBtn")?.addEventListener("click", () => updateGoogleSheet("rendezvous"));
 });
