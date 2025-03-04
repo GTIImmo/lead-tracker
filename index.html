@@ -7,28 +7,37 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
+    <!-- 🌟 Logo avec fond anthracite -->
     <header>
-        <img src="https://www.gti-immobilier.fr/application/files/5617/3617/2343/GTI-Logos-Grisblanc.png" alt="GTI Immobilier" class="logo">
+        <div class="header">
+            <img src="https://www.gti-immobilier.fr/application/files/5617/3617/2343/GTI-Logos-Grisblanc.png" alt="GTI Immobilier" class="logo">
+        </div>
     </header>
 
+    <!-- 📋 Conteneur principal avec fond clair -->
     <div class="container">
-        <h1>📋 Détails du Lead</h1>
-        <form id="leadForm">
-            <label>Nom :</label> <input type="text" id="nom">
-            <label>Prénom :</label> <input type="text" id="prenom">
-            <label>Email :</label> <input type="email" id="email">
-            <label>Téléphone :</label> <input type="tel" id="telephone">
-            <label>Adresse :</label> <input type="text" id="adresse">
-            <label>Code Postal :</label> <input type="text" id="codePostal">
-            <label>Ville :</label> <input type="text" id="ville">
-            <label>Type de bien :</label> <input type="text" id="typeBien">
-            <label>Surface :</label> <input type="number" id="surface">
-            <label>Prix estimé :</label> <input type="number" id="prix">
-            <label>Date de réception :</label> <input type="text" id="dateReception">
-            <label>📍 <a id="googleMaps" href="#" target="_blank">Voir sur Google Maps</a></label>
-        </form>
+        <h1>🔎 Détails du Lead</h1>
 
-        <div class="action-buttons">
+        <!-- 📌 Zone d'affichage des informations -->
+        <div class="lead-info">
+            <p id="nom"></p>
+            <p id="prenom"></p>
+            <p id="email"></p>
+            <p id="telephone"></p>
+            <p id="adresse"></p>
+            <p id="codePostal"></p>
+            <p id="ville"></p>
+            <p id="typeBien"></p>
+            <p id="surface"></p>
+            <p id="nbPieces"></p>
+            <p id="prix"></p>
+            <p id="dateReception"></p>
+            <p><a id="googleMaps" href="#" target="_blank">📍 Voir sur Google Maps</a></p>
+        </div>
+
+        <!-- 📞 Boutons d'actions -->
+        <div class="buttons">
             <button id="priseChargeBtn" class="btn btn-secondary">✅ C'est noté</button>
             <button id="appelerBtn" class="btn btn-warning">📞 Appeler</button>
             <button id="modifierBtn" class="btn btn-info">📝 Modifier</button>
