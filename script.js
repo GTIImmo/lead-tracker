@@ -1,17 +1,15 @@
 document.addEventListener("DOMContentLoaded", function() {
     const params = new URLSearchParams(window.location.search);
 
-    // 🛠️ **Fonction pour ajouter un "0" devant si le numéro est tronqué**
     function formatTelephone(num) {
         if (!num) return "";
-        num = num.replace(/\s+/g, ''); // Supprime les espaces
+        num = num.replace(/\s+/g, '');
         if (num.length === 9 && /^[1-9][0-9]+$/.test(num)) {
-            return "0" + num; // Ajoute un "0" devant si le numéro est à 9 chiffres
+            return "0" + num;
         }
         return num;
     }
 
-    // 🛠️ **Correction : Décodage des clés de l'URL pour éviter les problèmes d'espaces et caractères spéciaux**
     function getParamValue(key) {
         for (let [paramKey, paramValue] of params.entries()) {
             if (decodeURIComponent(paramKey).toLowerCase().trim() === key.toLowerCase().trim()) {
@@ -28,7 +26,7 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }
 
-    // 🚀 **Pré-remplissage des champs avec les données de l'URL**
+    // 🚀 **Pré-remplissage des informations du lead**
     setTextContent("nom", getParamValue("nom"));
     setTextContent("prenom", getParamValue("prenom"));
     setTextContent("email", getParamValue("email"));
@@ -39,9 +37,7 @@ document.addEventListener("DOMContentLoaded", function() {
     setTextContent("typeBien", getParamValue("typeBien"));
     setTextContent("surface", getParamValue("surface"));
     setTextContent("nbPieces", getParamValue("nbPieces"));
-    setTextContent("prix", getParamValue("Prix de vente estimé"));
-    setTextContent("googleMaps", getParamValue("googleMaps"));
-    setTextContent("mailCommercial", getParamValue("mailCommercial"));
+    setTextContent("prix", getParamValue("prix"));
     setTextContent("idEmail", getParamValue("idEmail"));
     setTextContent("agenceEnCharge", getParamValue("agenceEnCharge"));
     setTextContent("agenceAdresse", getParamValue("agenceAdresse"));
@@ -68,7 +64,6 @@ document.addEventListener("DOMContentLoaded", function() {
         document.getElementById("appelerBtn").style.display = "none";
     }
 
-    // 🛠️ **Fonction pour mettre à jour Google Sheets**
     function updateGoogleSheet(action, callback = null) {
         if (!confirm("Êtes-vous sûr de vouloir effectuer cette action ?")) return;
 
@@ -80,28 +75,24 @@ document.addEventListener("DOMContentLoaded", function() {
             .then(result => {
                 console.log("✅ Réponse du serveur : " + result);
                 alert(result);
-                if (callback) callback(); // Exécute la suite après mise à jour (ex: appel mobile)
+                if (callback) callback();
             })
             .catch(error => console.error("❌ Erreur : " + error));
     }
 
-    // 📞 **Bouton "Appeler" (différent sur PC et mobile)**
     document.getElementById("appelerBtn")?.addEventListener("click", function() {
         if (/Mobi|Android/i.test(navigator.userAgent)) {
-            // 📱 Mobile : Enregistrer d'abord dans Google Sheets puis appeler
             updateGoogleSheet("appel", function() {
                 setTimeout(() => {
                     window.location.href = "tel:" + telephone;
                 }, 1000);
             });
         } else {
-            // 🖥️ PC : Afficher une popup avec le numéro
             alert("📞 Numéro du lead : " + telephone);
             updateGoogleSheet("appel");
         }
     });
 
-    // ✅ **Boutons d'action sur le lead**
     document.getElementById("priseChargeBtn")?.addEventListener("click", () => updateGoogleSheet("confirm"));
     document.getElementById("modifierBtn")?.addEventListener("click", () => updateGoogleSheet("update"));
     document.getElementById("rendezVousBtn")?.addEventListener("click", () => updateGoogleSheet("rendezvous"));
