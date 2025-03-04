@@ -64,7 +64,7 @@ h1 {
 #adresse::before { content: "📍 "; font-weight: bold; }
 #codePostal::before { content: "📮 "; font-weight: bold; }
 #ville::before { content: "🏙️ "; font-weight: bold; }
-#typedebien::before { content: "🏡 "; font-weight: bold; }
+#typebien::before { content: "🏡 "; font-weight: bold; }
 #surface::before { content: "📏 "; font-weight: bold; }
 #nbPieces::before { content: "🚪 "; font-weight: bold; }
 #prix::before { content: "💰 "; font-weight: bold; }
