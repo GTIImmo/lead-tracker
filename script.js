@@ -36,6 +36,16 @@ document.addEventListener("DOMContentLoaded", function() {
     setInputValue("rdv", params.get("rdv"));
     setInputValue("notification", params.get("notification"));
 
+    // 🛠️ Fonction pour ajouter un "0" si le numéro a été tronqué dans Google Sheets
+    function formatTelephone(num) {
+    if (!num) return ""; // Si vide, retourner une chaîne vide
+    num = num.replace(/\s+/g, ''); // Supprime les espaces
+    if (num.length === 9) {
+        return "0" + num; // Ajoute un "0" devant si le numéro est à 9 chiffres
+    }
+    return num;
+    }
+
     // 📍 **Lien Google Maps**
     const googleMapsLink = document.getElementById("googleMaps");
     if (googleMapsLink && params.get("googleStreetView")) {
