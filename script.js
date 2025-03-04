@@ -1,6 +1,19 @@
 document.addEventListener("DOMContentLoaded", function() {
     const params = new URLSearchParams(window.location.search);
-    const telephone = params.get("telephone");
+    let telephone = params.get("telephone");
+
+    // 🛠️ **Fonction pour ajouter un "0" devant si le numéro est tronqué**
+    function formatTelephone(num) {
+        if (!num) return ""; // Si vide, retourne une chaîne vide
+        num = num.replace(/\s+/g, ''); // Supprime les espaces
+        if (num.length === 9 && /^[1-9][0-9]+$/.test(num)) {
+            return "0" + num; // Ajoute un "0" devant si le numéro est à 9 chiffres
+        }
+        return num;
+    }
+
+    // 🚀 **Correction : Reformater le numéro AVANT de l'utiliser**
+    telephone = formatTelephone(telephone);
 
     function setInputValue(id, value) {
         const inputElement = document.getElementById(id);
@@ -13,7 +26,7 @@ document.addEventListener("DOMContentLoaded", function() {
     setInputValue("nom", params.get("nom"));
     setInputValue("prenom", params.get("prenom"));
     setInputValue("email", params.get("email"));
-    setInputValue("telephone", formatTelephone(telephone));
+    setInputValue("telephone", telephone); // 🔥 Numéro bien formaté ici !
     setInputValue("adresse", params.get("adresse"));
     setInputValue("codePostal", params.get("codePostal"));
     setInputValue("ville", params.get("ville"));
@@ -35,16 +48,6 @@ document.addEventListener("DOMContentLoaded", function() {
     setInputValue("statutRDV", params.get("statutRDV"));
     setInputValue("rdv", params.get("rdv"));
     setInputValue("notification", params.get("notification"));
-
-    // 🛠️ Fonction pour ajouter un "0" si le numéro a été tronqué dans Google Sheets
-    function formatTelephone(num) {
-    if (!num) return ""; // Si vide, retourner une chaîne vide
-    num = num.replace(/\s+/g, ''); // Supprime les espaces
-    if (num.length === 9) {
-        return "0" + num; // Ajoute un "0" devant si le numéro est à 9 chiffres
-    }
-    return num;
-    }
 
     // 📍 **Lien Google Maps**
     const googleMapsLink = document.getElementById("googleMaps");
@@ -78,21 +81,19 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // 📞 **Bouton "Appeler" (différent sur PC et mobile)**
     document.getElementById("appelerBtn")?.addEventListener("click", function() {
-    const formattedTelephone = formatTelephone(telephone);
-
-    if (/Mobi|Android/i.test(navigator.userAgent)) {
-        // 📱 Mobile : Enregistrer d'abord dans Google Sheets puis appeler
-        updateGoogleSheet("appel", function() {
-            setTimeout(() => {
-                window.location.href = "tel:" + formattedTelephone;
-            }, 1000); // ⏳ Délai pour s'assurer que la mise à jour est bien faite
-        });
-    } else {
-        // 🖥️ PC : Afficher une popup avec le numéro
-        alert("📞 Numéro du lead : " + formattedTelephone);
-        updateGoogleSheet("appel");
-    }
-});
+        if (/Mobi|Android/i.test(navigator.userAgent)) {
+            // 📱 Mobile : Enregistrer d'abord dans Google Sheets puis appeler
+            updateGoogleSheet("appel", function() {
+                setTimeout(() => {
+                    window.location.href = "tel:" + telephone;
+                }, 1000); // ⏳ Délai pour s'assurer que la mise à jour est bien faite
+            });
+        } else {
+            // 🖥️ PC : Afficher une popup avec le numéro
+            alert("📞 Numéro du lead : " + telephone);
+            updateGoogleSheet("appel");
+        }
+    });
 
     // ✅ **Boutons d'action sur le lead**
     document.getElementById("priseChargeBtn")?.addEventListener("click", () => updateGoogleSheet("confirm"));
