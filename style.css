@@ -1,3 +1,4 @@
+
 /* 🌟 Général */
 body {
     font-family: 'Poppins', sans-serif; /* Typographie mise à jour */
@@ -56,12 +57,34 @@ h1 {
     background-color: #f9f9f9;
 }
 
-/* 🎨 Icônes */
+/* 🎨 Icônes pour chaque type d'info */
 .lead-info p::before {
     font-family: "Arial", sans-serif;
     margin-right: 10px;
     font-weight: bold;
 }
+
+#nom::before { content: "👤 "; }
+#prenom::before { content: "🆔 "; }
+#email::before { content: "📧 "; }
+#telephone::before { content: "📞 "; }
+#adresse::before { content: "📍 "; }
+#codePostal::before { content: "📮 "; }
+#ville::before { content: "🏙️ "; }
+#typedebien::before { content: "🏡 "; }
+#surface::before { content: "📏 "; }
+#nbPieces::before { content: "🚪 "; }
+#prix::before { content: "💰 "; }
+#idEmail::before { content: "🆔 "; }
+#agenceEnCharge::before { content: "🏢 "; }
+#agenceAdresse::before { content: "📍 "; }
+#agenceTelephone::before { content: "☎️ "; }
+#negociateurAffecte::before { content: "👨‍💼 "; }
+#telephoneCommercial::before { content: "📞 "; }
+#brevo::before { content: "📬 "; }
+#statutRDV::before { content: "📆 "; }
+#rdv::before { content: "📅 "; }
+#notification::before { content: "🔔 "; }
 
 /* 📍 Lien Google Maps */
 #googleMaps {
