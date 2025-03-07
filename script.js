@@ -65,15 +65,16 @@ document.addEventListener("DOMContentLoaded", function () {
         googleMapsLink.textContent = "📍 Voir sur Google Maps";
     }
 
-    // 📞 **Affichage du bouton "Appeler" uniquement si un numéro est renseigné**
-    const telephone = formatTelephone(getParamValue("telephone"));
-    const appelerBtn = document.getElementById("appelerBtn");
+    // 📞 Vérifier si le téléphone est réellement renseigné
+const telephone = formatTelephone(getParamValue("telephone"));
+const appelerBtn = document.getElementById("appelerBtn");
 
-    if (telephone) {
-        appelerBtn.style.display = "block";
-    } else {
-        appelerBtn.style.display = "none";
-    }
+if (!telephone || telephone.toLowerCase().includes("non renseigné")) {
+    appelerBtn.style.display = "none";  // Masquer le bouton si "Non renseigné"
+} else {
+    appelerBtn.style.display = "block"; // Afficher uniquement si un vrai numéro est présent
+}
+
 
     // 📞 **Gestion du clic sur le bouton "Appeler"**
     appelerBtn?.addEventListener("click", function() {
