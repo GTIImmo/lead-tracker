@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
     const params = new URLSearchParams(window.location.search);
 
     function formatTelephone(num) {
@@ -65,13 +65,34 @@ document.addEventListener("DOMContentLoaded", function() {
         googleMapsLink.textContent = "📍 Voir sur Google Maps";
     }
 
-    // 📞 **Gérer l'affichage du bouton "Appeler"**
+    // 📞 **Affichage du bouton "Appeler" uniquement si un numéro est renseigné**
     const telephone = formatTelephone(getParamValue("telephone"));
+    const appelerBtn = document.getElementById("appelerBtn");
+
     if (telephone) {
-        document.getElementById("appelerBtn").style.display = "block";
+        appelerBtn.style.display = "block";
     } else {
-        document.getElementById("appelerBtn").style.display = "none";
+        appelerBtn.style.display = "none";
     }
+
+    // 📞 **Gestion du clic sur le bouton "Appeler"**
+    appelerBtn?.addEventListener("click", function() {
+        if (/Mobi|Android/i.test(navigator.userAgent)) {
+            updateGoogleSheet("appel", function() {
+                setTimeout(() => {
+                    window.location.href = "tel:" + telephone;
+                }, 1000);
+            });
+        } else {
+            alert("📞 Numéro du lead : " + telephone);
+            updateGoogleSheet("appel");
+        }
+    });
+
+    // ✅ **Bouton "Prise en charge"**
+    document.getElementById("priseChargeBtn")?.addEventListener("click", () => updateGoogleSheet("confirm"));
+    document.getElementById("modifierBtn")?.addEventListener("click", () => updateGoogleSheet("update"));
+    document.getElementById("rendezVousBtn")?.addEventListener("click", () => updateGoogleSheet("rendezvous"));
 
     function updateGoogleSheet(action, callback = null) {
         if (!confirm("Êtes-vous sûr de vouloir effectuer cette action ?")) return;
@@ -88,21 +109,4 @@ document.addEventListener("DOMContentLoaded", function() {
             })
             .catch(error => console.error("❌ Erreur : " + error));
     }
-
-    document.getElementById("appelerBtn")?.addEventListener("click", function() {
-        if (/Mobi|Android/i.test(navigator.userAgent)) {
-            updateGoogleSheet("appel", function() {
-                setTimeout(() => {
-                    window.location.href = "tel:" + telephone;
-                }, 1000);
-            });
-        } else {
-            alert("📞 Numéro du lead : " + telephone);
-            updateGoogleSheet("appel");
-        }
-    });
-
-    document.getElementById("priseChargeBtn")?.addEventListener("click", () => updateGoogleSheet("confirm"));
-    document.getElementById("modifierBtn")?.addEventListener("click", () => updateGoogleSheet("update"));
-    document.getElementById("rendezVousBtn")?.addEventListener("click", () => updateGoogleSheet("rendezvous"));
 });
