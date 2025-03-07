@@ -106,3 +106,7 @@ document.addEventListener("DOMContentLoaded", function() {
     document.getElementById("modifierBtn")?.addEventListener("click", () => updateGoogleSheet("update"));
     document.getElementById("rendezVousBtn")?.addEventListener("click", () => updateGoogleSheet("rendezvous"));
 });
+    
+    document.getElementById("modifierBtn")?.remove();
+    document.getElementById("rendezVousBtn")?.remove();
+});
